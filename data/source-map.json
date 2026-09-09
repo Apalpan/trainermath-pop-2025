@@ -2,8 +2,8 @@
   "schema_version": 1,
   "generated_from": "Informacion PDFs; metadata only",
   "corpus": {
-    "files_discovered": 73,
-    "unique_documents": 42,
+    "files_discovered": 74,
+    "unique_documents": 43,
     "duplicate_file_copies": 31,
     "failed_documents": 0
   },
@@ -464,6 +464,20 @@
       ],
       "ocr_pages": 22,
       "ocr_mean_confidence": 66.8
+    },
+    {
+      "path": "Informacion/TEMARIO PUCP - EVALUACIÓN DEL TALENTO 2026-2.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Geometría",
+        "Trigonometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
     },
     {
       "path": "Informacion/TRIGONOMETRÍA - PRISMA 2024 (1).pdf",

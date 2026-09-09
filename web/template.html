@@ -54,7 +54,7 @@
               <button class="button primary" type="button" id="quickStart">Practicar 10 preguntas</button>
               <button class="button secondary" type="button" data-nav="anzan">Calentar con Anzan →</button>
             </div>
-            <div class="hero-proof"><span>★ Niveles a tu ritmo</span><span>◷ Metas de tiempo</span><span>6 áreas matemáticas</span></div>
+            <div class="hero-proof"><span>★ Niveles a tu ritmo</span><span>◷ Metas de tiempo</span><span>5 áreas · temario Prisma</span></div>
           </div>
           <aside class="daily-card mascot-card" aria-label="Consejos de Aecodito">
             <div class="mascot-stage"><span class="math-float float-one" aria-hidden="true">÷</span><span class="math-float float-two" aria-hidden="true">π</span><span class="math-float float-three" aria-hidden="true">+</span><button class="mascot-button" type="button" id="mascotTip" aria-label="Aecodito: mostrar otro consejo"><img src="__MASCOT__" alt="Aecodito, tu compañero de entrenamiento" width="230" height="230"></button></div>
@@ -83,7 +83,7 @@
           <div><p class="eyebrow">Entrenamiento deliberado</p><h1 id="practiceTitle">Práctica</h1><p>Resuelve, recibe feedback preciso y aprende el método rápido.</p></div>
           <div class="segmented" role="tablist" aria-label="Modo de práctica">
             <button type="button" role="tab" id="practiceTab" aria-selected="true" aria-controls="practiceSetup">Entrenar</button>
-            <button type="button" role="tab" id="studyTab" aria-selected="false" aria-controls="studyArea">Estudio original</button>
+            <button type="button" role="tab" id="studyTab" aria-selected="false" aria-controls="studyArea">Estudio</button>
           </div>
         </div>
 
@@ -91,7 +91,8 @@
           <section class="surface config-main">
             <div class="section-head"><div><p class="eyebrow">Configura tu sesión</p><h2>¿Qué quieres entrenar?</h2></div><span class="pool-badge" id="practicePool">— disponibles</span></div>
             <div class="field-grid">
-              <label>Tema<select id="practiceTopic" name="topic"></select></label>
+              <label>Área del temario<select id="practiceTopic" name="topic"></select></label>
+              <label>Unidad<select id="practiceUnit" name="unit"></select></label>
               <fieldset><legend>Nivel</legend><div class="star-picker" id="practiceLevel"></div></fieldset>
               <fieldset><legend>Cantidad</legend><div class="choice-row" id="practiceCount"></div></fieldset>
             </div>
@@ -104,6 +105,13 @@
           </aside>
         </form>
 
+        <details class="curriculum-panel surface" id="curriculumPanel">
+          <summary>Temario y cobertura del banco <span id="curriculumCoverage"></span></summary>
+          <p class="curriculum-intro">Organización de Prisma · Talento 2026-2, página 4 del material compartido. Selecciona una unidad para practicarla.</p>
+          <div id="curriculumTopics"></div>
+          <p class="curriculum-note">Las progresiones están en Números y Operaciones según Prisma. En la <a href="https://admision.pucp.net/temas-priorizados/" target="_blank" rel="noopener noreferrer">clasificación de competencias PUCP ↗</a> corresponden a regularidad, equivalencia y cambio. La cantidad disponible indica cobertura del banco, no dominio de Brenda ni cobertura completa de cada unidad.</p>
+        </details>
+
         <section id="practiceSession" hidden></section>
         <section id="practiceResult" hidden></section>
         <section id="studyArea" hidden></section>
@@ -111,7 +119,7 @@
 
       <section class="view" id="view-exam" data-view="exam" hidden aria-labelledby="examTitle">
         <div class="page-head">
-          <div><p class="eyebrow">Las 6 áreas, en cada simulacro</p><h1 id="examTitle">Examen CEPRE</h1><p>Entrena matemática con una distribución equilibrada de áreas y un reloj común. Simulacro de entrenamiento, sin ponderación oficial.</p></div>
+          <div><p class="eyebrow">Las 5 áreas del temario Prisma</p><h1 id="examTitle">Examen CEPRE</h1><p>Matemática para admisión PUCP: Números y Operaciones, Álgebra, Geometría, Estadística y Trigonometría. Simulacro de entrenamiento, sin ponderación oficial.</p></div>
         </div>
         <form class="surface exam-config" id="examSetup">
           <div class="section-head"><div><p class="eyebrow">Condiciones</p><h2>Arma tu simulacro</h2></div><span class="pool-badge" id="examPool">— disponibles</span></div>
@@ -120,7 +128,7 @@
             <fieldset><legend>Preguntas</legend><div class="choice-row" id="examCount"></div></fieldset>
             <label>Minutos<select id="examMinutes" name="minutes"><option value="20">20 min</option><option value="40" selected>40 min</option><option value="60">60 min</option></select></label>
           </div>
-          <div class="coverage-heading"><h3>Así se reparte tu examen</h3><span class="tag">6 de 6 áreas</span></div>
+          <div class="coverage-heading"><h3>Así se reparte tu examen</h3><span class="tag">5 de 5 áreas</span></div>
           <div class="exam-coverage" id="examCoverage" aria-live="polite"></div>
           <p class="coverage-note">Cada área prioriza preguntas nuevas. Al agotar sus casos, recupera los menos recientes. Las cuotas se ajustan al nivel disponible.</p>
           <div class="exam-rules"><p><strong>Durante el examen</strong></p><p>No verás pistas, aciertos ni soluciones hasta entregar. Puedes cambiar respuestas, omitir y marcar preguntas.</p></div>
@@ -155,7 +163,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-  <script>window.TRAINER_DATA = __DATA__;</script>
+  <script>window.TRAINER_DATA = __DATA__; window.TRAINER_SYLLABUS = __SYLLABUS__;</script>
   <script>__ENGINE__</script>
   <script>__ANZAN__</script>
   <script>__APP__</script>

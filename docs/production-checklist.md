@@ -1,6 +1,7 @@
 # TrainerMath: validación de entrega
 
-Actualización vigente: [rosa pastel, seis áreas y Anzan](rose-anzan-release.md).
+Actualización vigente: [temario Prisma y Anzan interactivo](temario-anzan-release.md).
+Entrega intermedia: [rosa pastel, seis áreas y Anzan](rose-anzan-release.md).
 La evidencia siguiente corresponde a la entrega anterior, antes de esa actualización.
 
 Usuario: Brenda Sofía. Producto: TrainerMath; se mantiene la identidad clara con

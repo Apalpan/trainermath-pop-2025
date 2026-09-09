@@ -11,7 +11,7 @@ páginas revisadas; el contenido es nuevo y no reproduce texto de los PDF.
 
 Cobertura: aritmética y razonamiento numérico (divisibilidad, fracciones,
 porcentajes, conteo, conjuntos y patrones), álgebra (ecuaciones, sistemas,
-polinomios, PA/PG), geometría (áreas, Pitágoras, polígonos, circunferencia y
+polinomios, funciones y desigualdades), geometría (áreas, Pitágoras, polígonos, circunferencia y
 sólidos), probabilidad/estadística elemental y trigonometría. El módulo separado
 `data/trigonometry_bank.py` aporta 48 ejercicios (6 familias × 8) de razones,
 tangente para altura/sombra, identidades fundamentales, cofunciones, ángulo doble
@@ -31,3 +31,25 @@ La validación final exige también **448 conjuntos de parámetros matemáticos
 distintos**. Cambiar un prefijo del enunciado no cuenta como caso nuevo. Los
 parámetros se mantienen en rangos de entrenamiento humano, y las alternativas de
 seno/coseno y probabilidad respetan sus dominios.
+
+## Ampliación por temario Prisma 2026-2
+
+`data/syllabus_additions.py` incorpora 96 casos (12 familias × 8), IDs 1501–1596:
+decimales, valor posicional decimal, factorización, funciones aplicadas,
+programación lineal, inecuaciones cuadráticas, valor absoluto, triángulos
+notables, grados/radianes, reducción de cuadrante, ecuaciones y funciones
+trigonométricas. Cada unidad del mapa de 55 unidades tiene al menos un caso.
+
+El total es 544 nuevos más 62 originales = 606. Se excluyen del entrenamiento
+5 originales duplicados y 10 complementarios (8 conversiones a bases no
+decimales, un sistema no lineal y una ley de cosenos); siguen en Estudio.
+El banco elegible es 591.
+
+La taxonomía final la aplica `data/curriculum.py` desde `data/syllabus-map.json`.
+Progresiones y sucesiones se muestran en Números y Operaciones; combinatoria y
+probabilidad en Estadística. Los validadores independientes están en
+`scripts/audit-math-independent.py` y `scripts/audit-syllabus-independent.py`.
+
+55 unidades con casos no equivalen a dominio de todas sus subhabilidades:
+por ejemplo, S01 incluye tablas simples y cálculos estadísticos, no todos los
+tipos de gráficos. Los niveles y tiempos son objetivos pedagógicos por calibrar.

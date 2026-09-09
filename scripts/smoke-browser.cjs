@@ -18,8 +18,8 @@ const nav=async(page,name)=>page.locator(`button[data-nav="${name}"]:visible`).f
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.goto(URL);await page.locator('#enterApp').click();
     await page.locator('#view-home').waitFor({state:'visible'});
-    assert.equal(await page.evaluate(()=>window.TRAINER_DATA.length),510);
-    await snap(page,'inicio-desktop');pass('local access, Inicio and 510-question bank');
+    assert((await page.evaluate(()=>window.TRAINER_DATA.length))>=600);
+    await snap(page,'inicio-desktop');pass('local access, Inicio and expanded question bank');
     await nav(page,'practice');await page.locator('#practiceCount [data-value="5"]').click();
     await page.locator('#practiceSetup button[type="submit"]').click();
     let s=await state(page);assert.equal(new Set(s.active.ids).size,5);

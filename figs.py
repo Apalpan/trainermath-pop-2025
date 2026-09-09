@@ -64,7 +64,7 @@ def fig33():
         return "".join(p)
     g.append(bar(-2, 1, 46, "lnB", False, False, "A = [&#8722;2; 1]"))
     g.append(bar(-1, 3.4, 78, "lnB", False, True, "B = [&#8722;1; +&#8734;&#10217;"))
-    g.append(bar(-3.4, 2, 110, "lnB", True, False, "C = &#10216;&#8722;&#8734;; 2&#10217;"))
+    g.append(bar(-3.4, 2, 110, "lnB", True, True, "C = &#10216;&#8722;&#8734;; 2&#10217;"))
     g.append(bar(1, 2, 145, "lnA", True, True, "(B&#8745;C) &#8722; A"))
     return svg(500, 214, "".join(g), "Recta numérica con los intervalos A, B, C y el resultado ]1;2[")
 

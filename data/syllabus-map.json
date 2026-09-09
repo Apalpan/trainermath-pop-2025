@@ -1,0 +1,428 @@
+{
+  "source": {
+    "title": "Prisma · Talento 2026-2",
+    "file": "TEMARIO PUCP - EVALUACIÓN DEL TALENTO 2026-2.pdf",
+    "page": 4,
+    "sha256": "d4c56c37aa500419a7f142af0c89ef349cbd2351efd7f8e942e7c976295fce00",
+    "kind": "Temario de preparación de la academia Prisma"
+  },
+  "officialReference": "https://admision.pucp.net/temas-priorizados/",
+  "areas": [
+    "Números y Operaciones",
+    "Álgebra",
+    "Geometría",
+    "Estadística",
+    "Trigonometría"
+  ],
+  "items": [
+    {
+      "id": "N01",
+      "area": "Números y Operaciones",
+      "label": "Razones"
+    },
+    {
+      "id": "N02",
+      "area": "Números y Operaciones",
+      "label": "Regla de tres"
+    },
+    {
+      "id": "N03",
+      "area": "Números y Operaciones",
+      "label": "Operaciones combinadas"
+    },
+    {
+      "id": "N04",
+      "area": "Números y Operaciones",
+      "label": "Número decimal"
+    },
+    {
+      "id": "N05",
+      "area": "Números y Operaciones",
+      "label": "Sistema decimal"
+    },
+    {
+      "id": "N06",
+      "area": "Números y Operaciones",
+      "label": "Conteo de números y cifras"
+    },
+    {
+      "id": "N07",
+      "area": "Números y Operaciones",
+      "label": "Divisibilidad"
+    },
+    {
+      "id": "N08",
+      "area": "Números y Operaciones",
+      "label": "Números primos"
+    },
+    {
+      "id": "N09",
+      "area": "Números y Operaciones",
+      "label": "Máximo Común Divisor y Mínimo Común Múltiplo"
+    },
+    {
+      "id": "N10",
+      "area": "Números y Operaciones",
+      "label": "Fracciones"
+    },
+    {
+      "id": "N11",
+      "area": "Números y Operaciones",
+      "label": "Regla del tanto por ciento"
+    },
+    {
+      "id": "N12",
+      "area": "Números y Operaciones",
+      "label": "Aplicaciones comerciales del tanto por ciento"
+    },
+    {
+      "id": "N13",
+      "area": "Números y Operaciones",
+      "label": "Interés Simple y Compuesto"
+    },
+    {
+      "id": "N14",
+      "area": "Números y Operaciones",
+      "label": "Promedios"
+    },
+    {
+      "id": "N15",
+      "area": "Números y Operaciones",
+      "label": "Conjuntos"
+    },
+    {
+      "id": "N16",
+      "area": "Números y Operaciones",
+      "label": "Conversión de unidades y notación científica"
+    },
+    {
+      "id": "N17",
+      "area": "Números y Operaciones",
+      "label": "Progresión aritmética y geométrica"
+    },
+    {
+      "id": "N18",
+      "area": "Números y Operaciones",
+      "label": "Series y sucesiones"
+    },
+    {
+      "id": "A01",
+      "area": "Álgebra",
+      "label": "Teoría de exponentes"
+    },
+    {
+      "id": "A02",
+      "area": "Álgebra",
+      "label": "Polinomios"
+    },
+    {
+      "id": "A03",
+      "area": "Álgebra",
+      "label": "Productos notables"
+    },
+    {
+      "id": "A04",
+      "area": "Álgebra",
+      "label": "División algebraica"
+    },
+    {
+      "id": "A05",
+      "area": "Álgebra",
+      "label": "Factorización"
+    },
+    {
+      "id": "A06",
+      "area": "Álgebra",
+      "label": "Fracciones algebraicas"
+    },
+    {
+      "id": "A07",
+      "area": "Álgebra",
+      "label": "Ecuaciones de primer y segundo grado"
+    },
+    {
+      "id": "A08",
+      "area": "Álgebra",
+      "label": "Sistema de ecuaciones de primer grado"
+    },
+    {
+      "id": "A09",
+      "area": "Álgebra",
+      "label": "Planteo de ecuaciones"
+    },
+    {
+      "id": "A10",
+      "area": "Álgebra",
+      "label": "Inecuaciones de primer grado"
+    },
+    {
+      "id": "A11",
+      "area": "Álgebra",
+      "label": "Funciones: lineal afín y cuadrática"
+    },
+    {
+      "id": "A12",
+      "area": "Álgebra",
+      "label": "Aplicaciones de funciones"
+    },
+    {
+      "id": "A13",
+      "area": "Álgebra",
+      "label": "Racionalización"
+    },
+    {
+      "id": "A14",
+      "area": "Álgebra",
+      "label": "Programación lineal"
+    },
+    {
+      "id": "A15",
+      "area": "Álgebra",
+      "label": "Inecuaciones de segundo grado"
+    },
+    {
+      "id": "A16",
+      "area": "Álgebra",
+      "label": "Valor absoluto"
+    },
+    {
+      "id": "G01",
+      "area": "Geometría",
+      "label": "Segmentos, ángulos y ángulos entre paralelas"
+    },
+    {
+      "id": "G02",
+      "area": "Geometría",
+      "label": "Propiedades fundamentales de los triángulos"
+    },
+    {
+      "id": "G03",
+      "area": "Geometría",
+      "label": "Triángulos rectángulos notables"
+    },
+    {
+      "id": "G04",
+      "area": "Geometría",
+      "label": "Líneas y puntos notables en el triángulo"
+    },
+    {
+      "id": "G05",
+      "area": "Geometría",
+      "label": "Congruencia de triángulos"
+    },
+    {
+      "id": "G06",
+      "area": "Geometría",
+      "label": "Cuadriláteros: trapezoides, trapecios y paralelogramos"
+    },
+    {
+      "id": "G07",
+      "area": "Geometría",
+      "label": "Líneas y ángulos en la circunferencia"
+    },
+    {
+      "id": "G08",
+      "area": "Geometría",
+      "label": "Polígonos"
+    },
+    {
+      "id": "G09",
+      "area": "Geometría",
+      "label": "Proporcionalidad de segmentos y semejanza de triángulos"
+    },
+    {
+      "id": "G10",
+      "area": "Geometría",
+      "label": "Relaciones métricas en el triángulo rectángulo"
+    },
+    {
+      "id": "G11",
+      "area": "Geometría",
+      "label": "Áreas triangulares, cuadrangulares y circulares"
+    },
+    {
+      "id": "G12",
+      "area": "Geometría",
+      "label": "Poliedros regulares, prismas, pirámides, cilindros, cono y esfera"
+    },
+    {
+      "id": "S01",
+      "area": "Estadística",
+      "label": "Tablas y gráficos estadísticos"
+    },
+    {
+      "id": "S02",
+      "area": "Estadística",
+      "label": "Análisis Combinatorio"
+    },
+    {
+      "id": "S03",
+      "area": "Estadística",
+      "label": "Probabilidades"
+    },
+    {
+      "id": "T01",
+      "area": "Trigonometría",
+      "label": "Sistemas de medidas angulares"
+    },
+    {
+      "id": "T02",
+      "area": "Trigonometría",
+      "label": "Razones trigonométricas"
+    },
+    {
+      "id": "T03",
+      "area": "Trigonometría",
+      "label": "Identidades trigonométricas de ángulos simples, compuestos, doble y mitad"
+    },
+    {
+      "id": "T04",
+      "area": "Trigonometría",
+      "label": "Reducción al primer cuadrante"
+    },
+    {
+      "id": "T05",
+      "area": "Trigonometría",
+      "label": "Ecuaciones trigonométricas"
+    },
+    {
+      "id": "T06",
+      "area": "Trigonometría",
+      "label": "Funciones trigonométricas"
+    }
+  ],
+  "families": {
+    "mcm_ciclos": "N09:directo",
+    "division_residuo": "N07:directo",
+    "suma_fracciones": "N10:directo",
+    "aumento_descuento": "N12:directo",
+    "media_datos": "N14:directo",
+    "precio_ponderado": "N14:apoyo",
+    "interes_mensual": "N13:directo",
+    "trabajo_inverso": "N02:directo",
+    "conteo_cifras": "N06:directo",
+    "decimal_a_base": "N05:complementario",
+    "conteo_primos": "N08:directo",
+    "ordenamientos": "S02:directo",
+    "comites": "S02:directo",
+    "union_dos_conjuntos": "N15:directo",
+    "patron_aditivo": "N18:directo",
+    "patron_multiplicativo": "N18:directo",
+    "pa_termino": "N17:directo",
+    "pa_suma": "N17:directo",
+    "pg_termino": "N17:directo",
+    "pg_suma": "N17:directo",
+    "ecuacion_lineal": "A07:directo",
+    "sistema_suma": "A08:directo",
+    "factorizacion_raiz": "A07:directo",
+    "producto_potencias": "A01:directo",
+    "evaluacion_polinomio": "A02:directo",
+    "area_rectangulo": "G11:directo",
+    "area_triangulo": "G11:directo",
+    "pitagoras": "G10:directo",
+    "suma_angulos": "G08:directo",
+    "angulo_regular": "G08:directo",
+    "diametro_radio": "G07:directo",
+    "volumen_prisma": "G12:directo",
+    "casos_favorables": "S03:directo",
+    "media_tabla": "N14:directo",
+    "mediana_ordenada": "S01:apoyo",
+    "moda_frecuencia": "S01:apoyo",
+    "precio_antes_descuento": "N12:directo",
+    "cambio_area_cuadrado": "N11:directo",
+    "agrupacion_maxima": "N09:directo",
+    "resto_comun": "N07:directo",
+    "producto_cerca_100": "N03:directo",
+    "diferencia_cuadrados": "A03:directo",
+    "parte_restante": "N10:directo",
+    "tanque_dos_llaves": "N02:apoyo",
+    "edades_futuro": "A09:directo",
+    "compras_dos_precios": "A08:directo",
+    "areas_semejantes": "G09:directo",
+    "diagonales_poligono": "G08:directo",
+    "dos_fichas_rojas": "S03:directo",
+    "promedio_ponderado": "N14:directo",
+    "trig_razones_pitagoricos": "T02:directo",
+    "trig_altura_sombra": "T02:directo",
+    "trig_identidad_fundamental": "T03:directo",
+    "trig_complementarios": "T03:directo",
+    "trig_angulo_doble": "T03:directo",
+    "trig_suma_angulos": "T03:directo",
+    "decimal_operaciones": "N04:directo",
+    "valor_posicional": "N05:directo",
+    "factorizacion_evaluada": "A05:directo",
+    "funcion_aplicada": "A12:directo",
+    "programacion_lineal": "A14:directo",
+    "inecuacion_cuadratica": "A15:directo",
+    "valor_absoluto": "A16:directo",
+    "triangulo_notable": "G03:directo",
+    "grados_radianes": "T01:directo",
+    "reduccion_cuadrante": "T04:directo",
+    "ecuacion_trigonometrica": "T05:directo",
+    "funcion_trigonometrica": "T06:directo"
+  },
+  "originals": {
+    "1": "N07:directo",
+    "2": "N06:directo",
+    "3": "N09:directo",
+    "4": "A09:directo",
+    "5": "N16:directo",
+    "6": "N01:directo",
+    "7": "N11:directo",
+    "8": "N11:directo",
+    "9": "N10:directo",
+    "10": "N17:directo",
+    "11": "N17:directo",
+    "12": "N06:directo",
+    "13": "N09:directo",
+    "14": "N10:directo",
+    "15": "N09:directo",
+    "16": "N17:directo",
+    "17": "A01:directo",
+    "18": "A07:apoyo",
+    "19": "A07:apoyo",
+    "20": "A13:directo",
+    "21": "A04:directo",
+    "22": "A02:directo",
+    "23": "A07:apoyo",
+    "24": "A07:directo",
+    "25": "A09:directo",
+    "26": "A09:directo",
+    "27": "A11:directo",
+    "28": "A06:directo",
+    "29": "A01:apoyo",
+    "30": "A07:directo",
+    "31": "A07:complementario",
+    "32": "N10:directo",
+    "33": "A10:apoyo",
+    "34": "A07:apoyo",
+    "35": "G01:directo",
+    "36": "G02:apoyo",
+    "37": "G04:directo",
+    "38": "T03:complementario",
+    "39": "G04:directo",
+    "40": "G06:directo",
+    "41": "G11:directo",
+    "42": "G11:directo",
+    "43": "G11:apoyo",
+    "44": "G11:directo",
+    "45": "G12:directo",
+    "46": "G12:directo",
+    "47": "G12:directo",
+    "48": "G11:apoyo",
+    "49": "G01:directo",
+    "50": "G05:directo",
+    "51": "G12:directo",
+    "52": "S02:directo",
+    "53": "S03:directo",
+    "54": "S03:directo",
+    "55": "S03:directo",
+    "56": "N14:directo",
+    "57": "S01:directo",
+    "58": "S01:directo",
+    "59": "S01:directo",
+    "60": "S03:directo",
+    "61": "N14:directo",
+    "62": "N14:directo"
+  }
+}

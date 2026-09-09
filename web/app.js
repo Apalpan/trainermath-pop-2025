@@ -4,7 +4,8 @@
   const byId=new Map(bank.map(p=>[E.qid(p),p]));
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const letters=['A','B','C','D'];
-  const topics=[...new Set(bank.map(p=>p.tema).filter(Boolean))];
+  const syllabus=window.TRAINER_SYLLABUS||{items:[],areas:[]};
+  const topics=syllabus.areas.length?syllabus.areas:[...new Set(bank.map(p=>p.tema).filter(Boolean))];
   const modes={
     variety:['Variedad','Mezcla familias y prioriza preguntas nuevas'],
     adaptive:['Adaptativo','Da prioridad a temas donde necesitas refuerzo'],
@@ -16,7 +17,7 @@
   let currentView='home', tickHandle=0, toastHandle=0, lastResult=null, paletteOpen=!window.matchMedia('(max-width:900px)').matches, practicePanelOpen=true, reviewDetailOpen=true, selectedReviewId='';
   const revealedSteps={};
   let anzan;
-  const prefs={practice:{topic:'Todos',level:0,count:10,mode:'variety'},exam:{topic:'Todos',level:0,count:20,minutes:40}};
+  const prefs={practice:{topic:'Todos',curriculumItem:'Todos',level:0,count:10,mode:'variety'},exam:{topic:'Todos',level:0,count:20,minutes:40}};
 
   function esc(v){return String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
   function fmtTime(value){const s=Math.max(0,Math.round(Number(value)||0));return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
@@ -67,14 +68,14 @@
 
   function filteredCount(kind){
     const p=prefs[kind], mode=kind==='practice'?p.mode:'variety';
-    return E.filtered(bank,{topic:p.topic,level:p.level,mode}).filter(q=>mode!=='review'||E.needsReview(E.latestAttempts(state).get(E.qid(q)))).length;
+    return E.filtered(bank,{...p,mode}).filter(q=>mode!=='review'||E.needsReview(E.latestAttempts(state).get(E.qid(q)))).length;
   }
   function updateConfig(kind){
     const p=prefs[kind], count=filteredCount(kind), take=Math.min(p.count,count);
     $(`#${kind}Pool`).textContent=`${count} disponible${count===1?'':'s'}`;
     if(kind==='practice'){
-      const secs=E.filtered(bank,{topic:p.topic,level:p.level,mode:p.mode}).slice(0,take).reduce((n,q)=>n+(q.target||90),0);
-      const sourcePool=E.filtered(bank,{topic:p.topic,level:p.level,mode:p.mode}), generatedItems=sourcePool.filter(q=>q.origin==='generated'), generated=generatedItems.length, families=new Set(generatedItems.map(q=>q.family).filter(Boolean)).size;
+      const secs=E.filtered(bank,p).slice(0,take).reduce((n,q)=>n+(q.target||90),0);
+      const sourcePool=E.filtered(bank,p), generatedItems=sourcePool.filter(q=>q.origin==='generated'), generated=generatedItems.length, families=new Set(generatedItems.map(q=>q.family).filter(Boolean)).size;
       $('#practiceEstimate').textContent=count?`${take} pregunta${take===1?'':'s'} · meta aprox. ${Math.max(1,Math.ceil(secs/60))} min · ${generated} ejercicios nuevos en ${families} familias nuevas con este filtro.`:'No hay preguntas con esta combinación. Cambia un filtro.';
       $('#practiceSetup button[type="submit"]').disabled=!count;
     }else{
@@ -87,7 +88,9 @@
 
   function setupConfigs(){
     fillSelect($('#practiceTopic'),['Todos',...topics]);
-    $('#practiceTopic').addEventListener('change',e=>{prefs.practice.topic=e.target.value;updateConfig('practice');});
+    $('#practiceTopic').addEventListener('change',e=>{prefs.practice.topic=e.target.value;prefs.practice.curriculumItem='Todos';fillUnits();updateConfig('practice');});
+    $('#practiceUnit').addEventListener('change',e=>{prefs.practice.curriculumItem=e.target.value;updateConfig('practice');});
+    fillUnits();renderCurriculum();
     makeStars($('#practiceLevel'),'practice');makeStars($('#examLevel'),'exam');
     makeCounts($('#practiceCount'),'practice',[5,10,20]);makeCounts($('#examCount'),'exam',[20,30,40]);
     $('#practiceModes').innerHTML=Object.entries(modes).map(([id,v])=>`<label class="mode-option"><input type="radio" name="practiceMode" value="${id}" ${id==='variety'?'checked':''}><span><strong>${v[0]}</strong><small>${v[1]}</small></span></label>`).join('');
@@ -96,12 +99,25 @@
     updateConfig('practice');updateConfig('exam');
   }
 
+  function fillUnits(){
+    const items=syllabus.items.filter(item=>prefs.practice.topic==='Todos'||item.area===prefs.practice.topic);
+    $('#practiceUnit').innerHTML='<option value="Todos">Todas las unidades</option>'+items.map(item=>`<option value="${esc(item.id)}">${esc(item.label)}</option>`).join('');
+    $('#practiceUnit').value=prefs.practice.curriculumItem;
+  }
+  function renderCurriculum(){
+    const count=item=>bank.filter(p=>p.practiceEligible!==false&&p.curriculum?.item===item.id).length;
+    const covered=syllabus.items.filter(item=>count(item)>0).length;
+    $('#curriculumCoverage').textContent=`${covered}/${syllabus.items.length} unidades con casos`;
+    $('#curriculumTopics').innerHTML=topics.map(area=>`<details class="curriculum-area"><summary>${esc(area)}</summary><div class="curriculum-units">${syllabus.items.filter(item=>item.area===area).map(item=>{const n=count(item);return n?`<button type="button" data-unit="${esc(item.id)}"><span>${esc(item.label)}</span><small>${n} ${n===1?'caso':'casos'} →</small></button>`:`<div class="curriculum-pending"><span>${esc(item.label)}</span><small>Por ampliar</small></div>`;}).join('')}</div></details>`).join('');
+    $$('[data-unit]',$('#curriculumTopics')).forEach(button=>button.onclick=()=>{const item=syllabus.items.find(x=>x.id===button.dataset.unit);prefs.practice.topic=item.area;prefs.practice.curriculumItem=item.id;prefs.practice.level=0;prefs.practice.mode='variety';$('#practiceTopic').value=item.area;fillUnits();setChoice($('#practiceLevel'),0);$$('input[name="practiceMode"]').forEach(i=>i.checked=i.value==='variety');updateConfig('practice');$('#curriculumPanel').open=false;$('#practiceSetup').scrollIntoView({block:'start',behavior:'instant'});$('#practiceUnit').focus({preventScroll:true});});
+  }
+
   function selectAndStart(kind,overrides={}){
     if(state.active){showView(state.active.mode==='exam'?'exam':'practice');return;}
     const p={...prefs[kind],...overrides};
     const selectionMode=kind==='practice'?p.mode:'variety';
     let selected;
-    try{selected=kind==='exam'?E.selectExamProblems(bank,state,p):E.selectProblems(bank,state,{topic:p.topic,level:p.level,count:p.count,mode:selectionMode});}
+    try{selected=kind==='exam'?E.selectExamProblems(bank,state,p):E.selectProblems(bank,state,{...p,mode:selectionMode});}
     catch(error){notify(error.message);return;}
     if(!selected.length){notify('No hay preguntas disponibles con esos filtros.');return;}
     state.active=E.createSession(selected,kind==='exam'?{mode:'exam',variant:'variety',duration:p.minutes*60}:{mode:'practice',variant:selectionMode});
@@ -127,11 +143,11 @@
     }).join('');
     return `<div class="question-meta"><span class="tag">${esc(p.tema)}</span><span class="tag">${esc(p.sub||'Práctica')}</span><span class="tag level">${stars(Number(p.dif)||1)}</span><span class="tag">Meta ${fmtTime(p.target||90)}</span></div><div class="question-text">${p.enun}</div>${p.fig?`<div class="question-figure">${p.fig}</div>`:''}<div class="options" aria-label="Alternativas">${options}</div>`;
   }
-  function solutionHtml(p){return `<div class="steps">${(p.steps||[]).map((s,i)=>`<article class="step"><h3><span class="step-index">${i+1}.</span>${esc(s.t)}</h3><div>${s.d}</div></article>`).join('')}</div><div class="answer-box"><strong>Respuesta ${letters[p.ans]}:</strong> ${p.opts[p.ans]}</div>${p.idea?`<div class="tip-card"><strong>Idea clave</strong><div>${p.idea}</div></div>`:''}${p.nota?`<div class="trap-card"><strong>Nota del material original:</strong> ${p.nota}</div>`:''}`;}
+  function solutionHtml(p){return `<div class="steps">${(p.steps||[]).map((s,i)=>`<article class="step"><h3><span class="step-index">${i+1}.</span>${esc(s.t)}</h3><div>${s.d}</div></article>`).join('')}</div><div class="answer-box"><strong>Respuesta ${letters[p.ans]}:</strong> ${p.opts[p.ans]}</div>${p.idea?`<div class="tip-card"><strong>Idea clave</strong><div>${p.idea}</div></div>`:''}${p.nota?`<div class="trap-card"><strong>Nota de revisión:</strong> ${p.nota}</div>`:''}`;}
   function progressiveSolution(p){const key=`${state.active.id}:${E.qid(p)}`,shown=revealedSteps[key]||0,steps=p.steps||[];return `<details class="solution" ${shown?'open':''}><summary>Solución paso a paso</summary><div class="steps">${steps.slice(0,shown).map((s,i)=>`<article class="step"><h3><span class="step-index">${i+1}.</span>${esc(s.t)}</h3><div>${s.d}</div></article>`).join('')}</div>${shown>=steps.length&&steps.length?`<div class="answer-box"><strong>Respuesta ${letters[p.ans]}:</strong> ${p.opts[p.ans]}</div>`:''}<div class="question-actions">${shown<steps.length?`<button class="button primary small" type="button" id="nextSolutionStep">${shown?'Ver siguiente paso':'Ver primer paso'}</button><button class="button secondary small" type="button" id="allSolutionSteps">Mostrar todo</button>`:''}</div></details>`;}
 
   function renderPracticeSurface(){
-    const active=state.active?.mode==='practice';
+    const active=state.active?.mode==='practice';$('#curriculumPanel').hidden=active||lastResult?.mode==='practice';
     $('#practiceSetup').hidden=active||lastResult?.mode==='practice';$('#practiceSession').hidden=!active;$('#practiceResult').hidden=!(lastResult?.mode==='practice');$('#studyArea').hidden=true;
     $('#practiceTab').setAttribute('aria-selected','true');$('#studyTab').setAttribute('aria-selected','false');
     if(active){renderPracticeQuestion();startTicker();}else if(lastResult?.mode==='practice')renderPracticeResult();else updateConfig('practice');
@@ -160,13 +176,13 @@
 
   function showStudy(){
     if(state.active?.mode==='practice'&&!state.active.paused){E.checkpoint(state.active);state.active.paused=true;state.active.runningSince=0;save();}
-    $('#practiceSetup').hidden=true;$('#practiceSession').hidden=true;$('#practiceResult').hidden=true;$('#studyArea').hidden=false;$('#practiceTab').setAttribute('aria-selected','false');$('#studyTab').setAttribute('aria-selected','true');
-    const originals=bank.filter(p=>p.origin==='original');
-    $('#studyArea').innerHTML=`<div class="study-toolbar"><label class="sr-only" for="studyTopic">Filtrar tema</label><select id="studyTopic"><option>Todos</option>${topics.map(t=>`<option>${esc(t)}</option>`).join('')}</select><p class="session-note">Abrir una solución aquí no registra intento ni tiempo.</p></div><div class="study-grid" id="studyGrid"></div><div id="studyDetail"></div>`;
-    const paint=()=>{const t=$('#studyTopic').value,list=originals.filter(p=>t==='Todos'||p.tema===t);$('#studyGrid').innerHTML=list.map(p=>`<button class="study-card" type="button" data-id="${esc(E.qid(p))}"><span class="tag">Original ${esc(p.n||p.id)}</span><strong>${esc(p.sub||p.tema)}</strong><small>${esc(p.tema)} · ${'★'.repeat(p.dif||1)}</small></button>`).join('')||`<div class="empty-state"><strong>Sin problemas</strong>No hay originales con este filtro.</div>`;$$('.study-card').forEach(b=>b.onclick=()=>openStudy(b.dataset.id));};
+    $('#curriculumPanel').hidden=true;$('#practiceSetup').hidden=true;$('#practiceSession').hidden=true;$('#practiceResult').hidden=true;$('#studyArea').hidden=false;$('#practiceTab').setAttribute('aria-selected','false');$('#studyTab').setAttribute('aria-selected','true');
+    const originals=bank.filter(p=>p.origin==='original'||p.curriculum?.status==='complementario');
+    $('#studyArea').innerHTML=`<div class="study-toolbar"><label class="sr-only" for="studyTopic">Filtrar tema</label><select id="studyTopic"><option>Todos</option>${topics.map(t=>`<option>${esc(t)}</option>`).join('')}</select><p class="session-note">Originales y ampliación: los complementarios no se sortean en práctica ni examen Prisma. Abrir soluciones aquí no registra intentos.</p></div><div class="study-grid" id="studyGrid"></div><div id="studyDetail"></div>`;
+    const paint=()=>{const t=$('#studyTopic').value,list=originals.filter(p=>t==='Todos'||p.tema===t);$('#studyGrid').innerHTML=list.map(p=>`<button class="study-card" type="button" data-id="${esc(E.qid(p))}"><span class="tag">${p.curriculum?.status==='complementario'?'Complementario':'Original'} ${esc(p.n||p.id)}</span><strong>${esc(p.sub||p.tema)}</strong><small>${esc(p.tema)} · ${'★'.repeat(p.dif||1)}</small></button>`).join('')||`<div class="empty-state"><strong>Sin problemas</strong>No hay ejercicios de estudio con este filtro.</div>`;$$('.study-card').forEach(b=>b.onclick=()=>openStudy(b.dataset.id));};
     $('#studyTopic').onchange=paint;paint();
   }
-  function openStudy(id){const p=byId.get(String(id));if(!p)return;$('#studyGrid').hidden=true;const root=$('#studyDetail');root.innerHTML=`<button class="button secondary small" type="button" id="closeStudy">← Volver al listado</button><article class="surface study-solution" style="margin-top:14px">${problemBody(p,{choice:p.ans},'study')}<details class="solution" open><summary>Resolución original</summary>${solutionHtml(p)}</details></article>`;$('#closeStudy').onclick=()=>{$('#studyGrid').hidden=false;root.innerHTML='';};}
+  function openStudy(id){const p=byId.get(String(id));if(!p)return;$('#studyGrid').hidden=true;const root=$('#studyDetail');root.innerHTML=`<button class="button secondary small" type="button" id="closeStudy">← Volver al listado</button><article class="surface study-solution" style="margin-top:14px">${problemBody(p,{choice:p.ans},'study')}<details class="solution" open><summary>Solución explicada</summary>${solutionHtml(p)}</details></article>`;$('#closeStudy').onclick=()=>{$('#studyGrid').hidden=false;root.innerHTML='';};}
 
   function renderExamSurface(){const active=state.active?.mode==='exam';$('#examSetup').hidden=active||lastResult?.mode==='exam';$('#examSession').hidden=!active;$('#examResult').hidden=!(lastResult?.mode==='exam');if(active){renderExamQuestion();startTicker();}else if(lastResult?.mode==='exam')renderExamResult();else updateConfig('exam');}
   function renderExamQuestion(){const s=state.active,p=currentProblem();if(!s||!p)return;markSeen(p);const id=E.qid(p),a=s.answers[id],answered=Object.hasOwn(s.answers,id),flagged=s.flags.includes(id),ansCount=Object.keys(s.answers).length;
@@ -208,11 +224,11 @@
     const nextTip=()=>{tipIndex=(tipIndex+1)%tips.length;$('#dailyTitle').textContent=tips[tipIndex][0];$('#dailyTip').textContent=tips[tipIndex][1];const mascot=$('#mascotTip');mascot.classList.remove('tip-bounce');requestAnimationFrame(()=>mascot.classList.add('tip-bounce'));};
     $('#mascotTip').addEventListener('click',nextTip);$('#nextTip').addEventListener('click',nextTip);
     $$('[data-nav]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();showView(b.dataset.nav);}));
-    $$('[data-preset]').forEach(b=>b.onclick=()=>{prefs.practice.mode=b.dataset.preset;showView('practice');$$('input[name="practiceMode"]').forEach(i=>i.checked=i.value===prefs.practice.mode);updateConfig('practice');});
-    $('#quickStart').onclick=()=>state.active?showView(state.active.mode==='exam'?'exam':'practice'):selectAndStart('practice',{count:10,mode:'variety'});
+    $$('[data-preset]').forEach(b=>b.onclick=()=>{prefs.practice.mode=b.dataset.preset;prefs.practice.topic='Todos';prefs.practice.curriculumItem='Todos';prefs.practice.level=0;$('#practiceTopic').value='Todos';fillUnits();setChoice($('#practiceLevel'),0);showView('practice');$$('input[name="practiceMode"]').forEach(i=>i.checked=i.value===prefs.practice.mode);updateConfig('practice');});
+    $('#quickStart').onclick=()=>state.active?showView(state.active.mode==='exam'?'exam':'practice'):selectAndStart('practice',{count:10,mode:'variety',topic:'Todos',curriculumItem:'Todos',level:0});
     $('#practiceSetup').addEventListener('submit',e=>{e.preventDefault();selectAndStart('practice');});$('#examSetup').addEventListener('submit',e=>{e.preventDefault();selectAndStart('exam');});
     $('#practiceTab').onclick=()=>renderPracticeSurface();$('#studyTab').onclick=showStudy;
-    $('#startReview').onclick=()=>{prefs.practice.mode='review';selectAndStart('practice',{mode:'review',count:10});};
+    $('#startReview').onclick=()=>{prefs.practice.mode='review';selectAndStart('practice',{mode:'review',count:10,topic:'Todos',curriculumItem:'Todos',level:0});};
     $('#finishDialog').addEventListener('close',()=>{if($('#finishDialog').returnValue==='confirm')finishExam(false);});
     $('#exportProgress').onclick=exportProgress;$('#importProgressButton').onclick=()=>$('#importProgress').click();$('#importProgress').onchange=e=>importProgress(e.target.files?.[0]);
     document.addEventListener('keydown',e=>{
@@ -228,7 +244,7 @@
 
   function init(){
     if(!E){document.body.innerHTML='<p style="padding:24px">No se pudo iniciar TrainerMath.</p>';return;}
-    anzan=window.TrainerAnzan?.init($('#view-anzan'));
+    anzan=window.TrainerAnzan?.init($('#view-anzan'),{mascotSrc:$('#mascotTip img').src,onState:screen=>document.body.classList.toggle('anzan-focus',['preparing','running','answer'].includes(screen))});
     setupConfigs();bind();
     if(loaded.warning)showStorage(loaded.warning);
     if(!bank.length)showStorage('El banco de preguntas no está disponible. Vuelve a generar la aplicación.');

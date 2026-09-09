@@ -74,7 +74,7 @@
   }
   function needsReview(a) { return !!a && (!a.correct || a.hint || (a.seconds > a.target && a.mode !== 'legacy')); }
   function filtered(bank, options = {}) {
-    return bank.filter(p => p.practiceEligible !== false && (!options.topic || options.topic === 'Todos' || p.tema === options.topic) && (!Number(options.level) || p.dif === Number(options.level)) && (!options.subtopic || options.subtopic === 'Todos' || p.sub === options.subtopic) && (options.mode !== 'speed' || p.target <= 60));
+    return bank.filter(p => p.practiceEligible !== false && (!options.topic || options.topic === 'Todos' || p.tema === options.topic) && (!Number(options.level) || p.dif === Number(options.level)) && (!options.subtopic || options.subtopic === 'Todos' || p.sub === options.subtopic) && (!options.curriculumItem || options.curriculumItem === 'Todos' || p.curriculum?.item === options.curriculumItem) && (options.mode !== 'speed' || p.target <= 60));
   }
   function selectProblems(bank, state, options = {}, rng = Math.random) {
     let pool = filtered(bank, options);

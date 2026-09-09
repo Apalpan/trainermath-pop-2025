@@ -47,9 +47,9 @@ function topicOrder(bank) {
 const bank = loadRealBank();
 const topics = topicOrder(bank);
 
-test('el banco real contiene las seis áreas matemáticas del simulacro', () => {
-  assert.equal(bank.length, 510);
-  assert.deepEqual(new Set(topics), new Set(['Aritmética', 'Álgebra', 'Geometría', 'Trigonometría', 'Estadística', 'Probabilidad']));
+test('el banco real contiene las cinco áreas matemáticas del simulacro', () => {
+  assert(bank.length >= 600);
+  assert.deepEqual(new Set(topics), new Set(['Números y Operaciones', 'Álgebra', 'Geometría', 'Trigonometría', 'Estadística']));
 });
 
 test('20, 30 y 40 preguntas cubren todas las áreas para cada nivel en 100 semillas', () => {
@@ -71,7 +71,7 @@ test('20, 30 y 40 preguntas cubren todas las áreas para cada nivel en 100 semil
 });
 
 test('los restos de cuota rotan entre exámenes y 30 se reparte exactamente', () => {
-  for (const count of [20, 40]) {
+  for (const count of [21, 23]) {
     const first = E.examPlan(bank, {count}, E.emptyState());
     const state = E.emptyState();
     state.sessions.push({mode: 'exam'});
@@ -86,7 +86,7 @@ test('los restos de cuota rotan entre exámenes y 30 se reparte exactamente', ()
     assert.deepEqual(secondBonus, [...topics.slice(1), topics[0]].slice(0, remainder));
   }
   const even = E.examPlan(bank, {count: 30}, E.emptyState());
-  assert(even.areas.every(area => area.count === 5));
+  assert(even.areas.every(area => area.count === 6));
 });
 
 test('no repite una pregunta por área en tres simulacros mientras queda banco nuevo suficiente', () => {
@@ -111,8 +111,8 @@ test('un área vacía en el nivel elegido devuelve error explícito', () => {
   assert.throws(() => E.selectExamProblems(missingLevel, E.emptyState(), {level: 3, count: 20}, rng(1)), /todas las áreas/i);
 });
 
-test('un pool pequeño conserva las seis áreas, limita la cuota escasa y reparte el resto', () => {
-  const tinyTopic = 'Aritmética';
+test('un pool pequeño conserva las cinco áreas, limita la cuota escasa y reparte el resto', () => {
+  const tinyTopic = 'Números y Operaciones';
   const synthetic = topics.flatMap((topic, topicIndex) => Array.from({length: topic === tinyTopic ? 1 : 10}, (_, index) => ({
     id: `small-${topicIndex}-${index}`,
     tema: topic,

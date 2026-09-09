@@ -10,6 +10,8 @@ from data_p2 import PROBLEMS_2
 from data_p3 import PROBLEMS_3
 from data_p4 import PROBLEMS_4
 from figs import FIGS
+from data.editorial_fixes import apply_editorial_fixes
+from data.curriculum import apply_curriculum, public_syllabus
 
 ROOT = Path(__file__).resolve().parent
 
@@ -17,7 +19,8 @@ ROOT = Path(__file__).resolve().parent
 def load_bank():
     from data.generated_bank import PROBLEMS_GENERATED
     from data.trigonometry_bank import PROBLEMS_TRIGONOMETRY
-    original = [dict(p) for p in PROBLEMS_1 + PROBLEMS_2 + PROBLEMS_3 + PROBLEMS_4]
+    from data.syllabus_additions import PROBLEMS_SYLLABUS
+    original = apply_editorial_fixes(PROBLEMS_1 + PROBLEMS_2 + PROBLEMS_3 + PROBLEMS_4)
     assert [p['n'] for p in original] == list(range(1, 63))
     for p in original:
         p.update(id=str(p['n']), family='pop-' + str(p.get('dup') or p['n']),
@@ -28,7 +31,7 @@ def load_bank():
         p.setdefault('hint', 'Identifica qué cantidad se pide, sus unidades y la condición que limita la respuesta. Elige una estrategia antes de operar.')
         p.setdefault('trap', 'Comprueba la condición final del enunciado antes de marcar una alternativa.')
         p.setdefault('nota', '')
-    generated = [dict(p) for p in PROBLEMS_GENERATED + PROBLEMS_TRIGONOMETRY]
+    generated = [dict(p) for p in PROBLEMS_GENERATED + PROBLEMS_TRIGONOMETRY + PROBLEMS_SYLLABUS]
     assert len(generated) >= 300, 'Se requieren al menos 300 ejercicios nuevos'
     fingerprints = [re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', p['enun']))).strip().casefold() for p in generated]
     assert len(set(fingerprints)) == len(fingerprints), 'Enunciados nuevos repetidos'
@@ -42,7 +45,7 @@ def load_bank():
         assert p['steps'] and p['idea'], p['id']
         for field in ('params', 'check', 'validation', 'validator'):
             p.pop(field, None)
-    return bank
+    return apply_curriculum(bank)
 
 
 def main():
@@ -52,6 +55,7 @@ def main():
     replacements = {
         '__CSS__':css,
         '__DATA__':json.dumps(bank,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'),
+        '__SYLLABUS__':json.dumps(public_syllabus(),ensure_ascii=False,separators=(',',':')).replace('</','<\\/'),
         '__ENGINE__':(ROOT/'web/engine.js').read_text(encoding='utf-8'),
         '__ANZAN__':(ROOT/'web/anzan.js').read_text(encoding='utf-8'),
         '__APP__':(ROOT/'web/app.js').read_text(encoding='utf-8'),

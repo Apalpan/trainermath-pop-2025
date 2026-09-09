@@ -2,6 +2,25 @@
 :root{--acc:var(--brand);--acc3:var(--brand-line);--s3:var(--brand-line);--line2:var(--line-strong)}
 .logo{background:transparent;box-shadow:0 5px 14px -9px #a75c79;flex-shrink:0}
 .view{scroll-margin-top:90px}
+.anzan-focus .topbar,.anzan-focus .footer{display:none}
+.anzan-focus main{max-width:none;padding:0;min-height:100dvh}
+.anzan-focus #view-anzan{min-height:100dvh;scroll-margin-top:0}
+.anzan-focus .storage-alert{display:none}
+.curriculum-panel{margin:18px 0}
+.curriculum-panel>summary{min-height:44px;cursor:pointer;font-weight:750;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.curriculum-panel>summary>span{font-size:.8rem;color:var(--muted);font-weight:500}
+.curriculum-intro,.curriculum-note{font-size:.84rem;color:var(--muted);margin:16px 0;line-height:1.6}
+.curriculum-note a{color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+.curriculum-area{border-top:1px solid var(--line);padding:8px 0}
+.curriculum-area>summary{min-height:44px;cursor:pointer;font-weight:650;color:var(--brand);padding:10px 0}
+.curriculum-units{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.curriculum-units button,.curriculum-pending{display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:56px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;font-size:.85rem}
+.curriculum-units button:hover{background:var(--brand-soft);border-color:var(--brand)}
+.curriculum-units small{white-space:nowrap;color:var(--brand);font-size:.75rem}
+.curriculum-pending{background:var(--surface-soft);color:var(--muted)}.curriculum-pending small{color:var(--muted)}
+#practiceSetup .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#practiceSetup{scroll-margin-top:90px}
+.exam-coverage{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media(max-width:640px){.curriculum-units,#practiceSetup .field-grid{grid-template-columns:1fr}}
 .topbar{background:#fffbfd;gap:18px}
 .brand strong{letter-spacing:-.035em}
 .access{overflow:auto;background:radial-gradient(ellipse at 72% 15%,#f7dae5 0,transparent 55%),linear-gradient(135deg,#fffcfd,#f9eef3)}
@@ -35,7 +54,7 @@
 .exam-fields{grid-template-columns:1.2fr 1fr 1fr}
 .coverage-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 12px}
 .coverage-heading .tag{background:var(--brand-soft);color:var(--brand)}
-.exam-coverage{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+.exam-coverage{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
 .coverage-item{padding:13px 12px;border:1px solid var(--brand-line);border-radius:12px;background:#fffbfd}
 .coverage-item>span{display:block;color:var(--muted);font-size:.78rem}
 .coverage-item strong{display:block;color:var(--brand);font-size:1.35rem;margin-top:6px}
