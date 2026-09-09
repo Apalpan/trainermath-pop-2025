@@ -9,13 +9,21 @@ para estudio y se excluyen del sorteo de entrenamiento: **505 preguntas elegible
 
 ## Uso
 
-- **Inicio:** entrar al perfil local de Brenda Sofía y comenzar una práctica.
+- **Inicio:** identidad rosa pastel para Brenda Sofía, logo matemático Σ y Aecodito
+  oficial con consejos interactivos. Animaciones breves con respeto a movimiento reducido.
 - **Práctica:** tema, estrellas, cantidad y enfoque (variedad, adaptativo, velocidad
   o repaso). Prioriza preguntas no vistas y distintas familias; recicla las más
   antiguas solo al agotar el filtro. El repaso recupera errores de forma deliberada.
 - **Aprendizaje:** pista opcional, atajo, trampa habitual y solución con revelado
   progresivo. La explicación no aumenta el tiempo de resolución.
-- **Examen CEPRE:** elegir preguntas y minutos. Cambiar respuestas, marcar y navegar;
+- **Anzan:** solo cifras del 1 al 9, cantidad 5/10/15/20, aparición automática a
+  0.5/1/1.5/2 segundos o avance con flecha derecha/Espacio. Sumar mentalmente y
+  comprobar al final. Pausa, reinicio y salida; se detiene al ocultar la pestaña.
+  Este calentamiento no modifica las métricas de ejercicios CEPRE.
+- **Examen CEPRE:** elegir estrellas, preguntas y minutos. Siempre incluye las seis
+  áreas matemáticas; muestra las cuotas antes y los resultados por área después.
+  Prioriza preguntas nuevas dentro de cada área y recicla al agotar esa área.
+  Las cuotas se ajustan al banco disponible en el nivel. Cambiar respuestas, marcar y navegar;
   las soluciones se muestran después de entregar. El reloj total persiste al
   recargar y la entrega es automática al vencer el tiempo.
 - **Revisión:** errores, respuestas con pista y aciertos fuera del tiempo objetivo.
@@ -53,6 +61,8 @@ en `figs.py` y `data_p1.py` a `data_p4.py`.
 python scripts/validate_bank.py
 python scripts/validate_trigonometry.py
 node scripts/test-engine.cjs
+node scripts/test-exam-coverage.cjs
+node scripts/test-anzan.cjs
 python build.py
 node --check web/app.js
 ```
@@ -61,6 +71,8 @@ Los validadores comprueban resultados exactos, alternativas, dominios y
 duplicados de parámetros matemáticos, además de enunciados. La prueba de navegador
 `scripts/smoke-browser.cjs` necesita Playwright disponible en el entorno, el
 servidor local y guarda capturas en `output/playwright/`.
+`scripts/smoke-rose-anzan.cjs` verifica el Anzan, el examen con seis áreas, la
+identidad, el teclado, 320/375 px y la ejecución offline del HTML completo.
 
 ## Material local de academia
 

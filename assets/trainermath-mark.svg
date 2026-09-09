@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <title>TrainerMath · símbolo sigma</title>
+  <defs>
+    <linearGradient id="rose" x1="12" y1="4" x2="113" y2="128" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF5F8"/><stop offset=".5" stop-color="#F8D3E1"/><stop offset="1" stop-color="#E6A4BC"/></linearGradient>
+    <linearGradient id="edge" x1="22" y1="0" x2="104" y2="128" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="#C9829C"/></linearGradient>
+  </defs>
+  <rect x="2" y="2" width="124" height="124" rx="35" fill="url(#rose)" stroke="url(#edge)" stroke-width="3"/>
+  <rect x="10" y="10" width="108" height="108" rx="28" stroke="white" stroke-opacity=".5"/>
+  <path d="M84 36H42l25 28-25 28h42" stroke="#883C5A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M94 24v12m-6-6h12" stroke="#B65B7C" stroke-width="3" stroke-linecap="round"/>
+</svg>

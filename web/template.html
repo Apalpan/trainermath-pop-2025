@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#00805d">
+  <meta name="theme-color" content="#fff6f9">
   <meta name="description" content="Entrenador de velocidad matemática para Brenda Sofía, con práctica variada y simulacros CEPRE configurables.">
   <title>TrainerMath · Brenda Sofía</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2300805d'/%3E%3Cpath d='M17 18h30v7H36v22h-8V25H17z' fill='white'/%3E%3C/svg%3E">
+  <link rel="icon" href="__LOGO__">
   <style>__CSS__</style>
 </head>
 <body>
   <section class="access" id="accessGate" aria-labelledby="accessTitle">
     <div class="access-card">
-      <div class="logo logo-large" aria-hidden="true">T</div>
-      <p class="eyebrow">TrainerMath</p>
-      <h1 id="accessTitle">Entrena para resolver antes.</h1>
+      <div class="access-art" aria-hidden="true"><img class="access-mascot" src="__MASCOT__" alt="" width="180" height="180"><span class="math-float float-one">÷</span><span class="math-float float-two">π</span><span class="math-float float-three">+</span></div>
+      <img class="logo logo-large" src="__LOGO__" alt="" width="58" height="58">
+      <p class="eyebrow">TrainerMath · para Brenda</p>
+      <h1 id="accessTitle">Tu mente, un paso más rápido.</h1>
       <p>Práctica matemática de velocidad preparada para <strong>Brenda Sofía</strong>.</p>
       <button class="button primary wide" id="enterApp" type="button">Entrar a mi entrenamiento</button>
       <p class="local-note">Acceso local: no usa cuenta ni contraseña. Tu progreso se guarda solo en este navegador.</p>
@@ -24,12 +25,13 @@
   <div class="app-shell" id="appShell" hidden>
     <header class="topbar">
       <a class="brand" href="#inicio" data-nav="home" aria-label="TrainerMath, ir a Inicio">
-        <span class="logo" aria-hidden="true">T</span>
+        <img class="logo" src="__LOGO__" alt="" width="42" height="42">
         <span><strong>TrainerMath</strong><small>Velocidad CEPRE</small></span>
       </a>
       <nav class="main-nav" aria-label="Navegación principal">
         <button type="button" data-nav="home">Inicio</button>
         <button type="button" data-nav="practice">Práctica</button>
+        <button type="button" data-nav="anzan">Anzan</button>
         <button type="button" data-nav="exam">Examen CEPRE</button>
         <button type="button" data-nav="review">Revisión</button>
       </nav>
@@ -45,19 +47,18 @@
       <section class="view" id="view-home" data-view="home" aria-labelledby="homeTitle">
         <div class="home-hero">
           <div>
-            <p class="eyebrow">Tu siguiente entrenamiento</p>
-            <h1 id="homeTitle">Gana segundos sin perder criterio.</h1>
+            <p class="eyebrow">Tu espacio, Brenda Sofía</p>
+            <h1 id="homeTitle">Piensa claro.<br><em>Resuelve más rápido.</em></h1>
             <p>Practica casos variados, mide solo tu tiempo de resolución y aprende el atajo después de responder.</p>
             <div class="hero-actions">
               <button class="button primary" type="button" id="quickStart">Practicar 10 preguntas</button>
-              <button class="button secondary" type="button" data-nav="exam">Configurar examen CEPRE</button>
+              <button class="button secondary" type="button" data-nav="anzan">Calentar con Anzan →</button>
             </div>
+            <div class="hero-proof"><span>★ Niveles a tu ritmo</span><span>◷ Metas de tiempo</span><span>6 áreas matemáticas</span></div>
           </div>
-          <aside class="daily-card" aria-label="Consejo de entrenamiento">
-            <span class="daily-icon" aria-hidden="true">↗</span>
-            <p class="eyebrow">Método rápido</p>
-            <h2>Lee la condición decisiva primero.</h2>
-            <p>Antes de operar, identifica qué dato elimina alternativas. La velocidad empieza en el criterio.</p>
+          <aside class="daily-card mascot-card" aria-label="Consejos de Aecodito">
+            <div class="mascot-stage"><span class="math-float float-one" aria-hidden="true">÷</span><span class="math-float float-two" aria-hidden="true">π</span><span class="math-float float-three" aria-hidden="true">+</span><button class="mascot-button" type="button" id="mascotTip" aria-label="Aecodito: mostrar otro consejo"><img src="__MASCOT__" alt="Aecodito, tu compañero de entrenamiento" width="230" height="230"></button></div>
+            <div class="mascot-caption"><p class="eyebrow">Aecodito te acompaña</p><h2 id="dailyTitle">Encuentra el camino corto.</h2><p id="dailyTip" aria-live="polite">Antes de operar, identifica qué dato elimina alternativas. La velocidad empieza en el criterio.</p><button type="button" class="text-button" id="nextTip">Otro consejo <span aria-hidden="true">→</span></button></div>
           </aside>
         </div>
         <div class="metrics" id="homeMetrics"></div>
@@ -74,6 +75,8 @@
           </section>
         </div>
       </section>
+
+      <section class="view" id="view-anzan" data-view="anzan" hidden aria-label="Anzan: cálculo mental con un dígito"></section>
 
       <section class="view" id="view-practice" data-view="practice" hidden aria-labelledby="practiceTitle">
         <div class="page-head">
@@ -108,16 +111,18 @@
 
       <section class="view" id="view-exam" data-view="exam" hidden aria-labelledby="examTitle">
         <div class="page-head">
-          <div><p class="eyebrow">Simulacro configurable</p><h1 id="examTitle">Examen CEPRE</h1><p>Entrenamiento de ritmo y decisión. No es un examen oficial ni reproduce una convocatoria específica.</p></div>
+          <div><p class="eyebrow">Las 6 áreas, en cada simulacro</p><h1 id="examTitle">Examen CEPRE</h1><p>Entrena matemática con una distribución equilibrada de áreas y un reloj común. Simulacro de entrenamiento, sin ponderación oficial.</p></div>
         </div>
         <form class="surface exam-config" id="examSetup">
           <div class="section-head"><div><p class="eyebrow">Condiciones</p><h2>Arma tu simulacro</h2></div><span class="pool-badge" id="examPool">— disponibles</span></div>
           <div class="field-grid exam-fields">
-            <label>Tema<select id="examTopic" name="topic"></select></label>
             <fieldset><legend>Nivel</legend><div class="star-picker" id="examLevel"></div></fieldset>
             <fieldset><legend>Preguntas</legend><div class="choice-row" id="examCount"></div></fieldset>
             <label>Minutos<select id="examMinutes" name="minutes"><option value="20">20 min</option><option value="40" selected>40 min</option><option value="60">60 min</option></select></label>
           </div>
+          <div class="coverage-heading"><h3>Así se reparte tu examen</h3><span class="tag">6 de 6 áreas</span></div>
+          <div class="exam-coverage" id="examCoverage" aria-live="polite"></div>
+          <p class="coverage-note">Cada área prioriza preguntas nuevas. Al agotar sus casos, recupera los menos recientes. Las cuotas se ajustan al nivel disponible.</p>
           <div class="exam-rules"><p><strong>Durante el examen</strong></p><p>No verás pistas, aciertos ni soluciones hasta entregar. Puedes cambiar respuestas, omitir y marcar preguntas.</p></div>
           <div class="config-footer"><p id="examEstimate">El tiempo total continúa aunque recargues u ocultes la página.</p><button class="button primary" type="submit">Iniciar examen</button></div>
         </form>
@@ -152,6 +157,7 @@
 
   <script>window.TRAINER_DATA = __DATA__;</script>
   <script>__ENGINE__</script>
+  <script>__ANZAN__</script>
   <script>__APP__</script>
 </body>
 </html>

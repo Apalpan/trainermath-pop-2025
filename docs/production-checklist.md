@@ -1,5 +1,8 @@
 # TrainerMath: validación de entrega
 
+Actualización vigente: [rosa pastel, seis áreas y Anzan](rose-anzan-release.md).
+La evidencia siguiente corresponde a la entrega anterior, antes de esa actualización.
+
 Usuario: Brenda Sofía. Producto: TrainerMath; se mantiene la identidad clara con
 acento verde del entrenador original.
 

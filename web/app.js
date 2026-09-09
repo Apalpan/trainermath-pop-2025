@@ -15,6 +15,7 @@
   let loaded=E.load(storage,bank), state=loaded.state, readOnly=!!loaded.readOnly;
   let currentView='home', tickHandle=0, toastHandle=0, lastResult=null, paletteOpen=!window.matchMedia('(max-width:900px)').matches, practicePanelOpen=true, reviewDetailOpen=true, selectedReviewId='';
   const revealedSteps={};
+  let anzan;
   const prefs={practice:{topic:'Todos',level:0,count:10,mode:'variety'},exam:{topic:'Todos',level:0,count:20,minutes:40}};
 
   function esc(v){return String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -48,8 +49,9 @@
   }
 
   function showView(name,focus=true){
-    if(!['home','practice','exam','review'].includes(name))name='home';
+    if(!['home','practice','exam','review','anzan'].includes(name))name='home';
     if(state.active?.mode==='practice'&&currentView==='practice'&&name!=='practice'&&!state.active.paused){E.checkpoint(state.active);state.active.paused=true;state.active.runningSince=0;save();}
+    if(currentView==='anzan'&&name!=='anzan')anzan?.deactivate();
     currentView=name;
     $$('.view').forEach(v=>v.hidden=v.dataset.view!==name);
     $$('[data-nav]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-current',b.dataset.nav===name?'page':'false');});
@@ -58,6 +60,7 @@
     if(name==='practice')renderPracticeSurface();
     if(name==='exam')renderExamSurface();
     if(name==='review')renderReview();
+    if(name==='anzan')anzan?.activate();
     window.scrollTo({top:0,behavior:'auto'});
     if(focus)$('#mainContent').focus({preventScroll:true});
   }
@@ -75,15 +78,16 @@
       $('#practiceEstimate').textContent=count?`${take} pregunta${take===1?'':'s'} · meta aprox. ${Math.max(1,Math.ceil(secs/60))} min · ${generated} ejercicios nuevos en ${families} familias nuevas con este filtro.`:'No hay preguntas con esta combinación. Cambia un filtro.';
       $('#practiceSetup button[type="submit"]').disabled=!count;
     }else{
-      $('#examEstimate').textContent=count?`${take} preguntas · ${p.minutes} min totales · ${Math.round(p.minutes*60/Math.max(1,take))} s promedio por pregunta.`:'No hay preguntas con esta combinación. Cambia un filtro.';
-      $('#examSetup button[type="submit"]').disabled=!count;
+      const plan=E.examPlan(bank,p,state);
+      $('#examCoverage').innerHTML=plan.areas.map(a=>`<div class="coverage-item"><span>${esc(a.topic)}</span><strong>${a.count}<small> preguntas</small></strong></div>`).join('');
+      $('#examEstimate').textContent=plan.error||`${plan.count} preguntas · ${p.minutes} min totales · ${Math.round(p.minutes*60/plan.count)} s promedio por pregunta · todas las áreas incluidas.`;
+      $('#examSetup button[type="submit"]').disabled=!!plan.error;
     }
   }
 
   function setupConfigs(){
-    fillSelect($('#practiceTopic'),['Todos',...topics]);fillSelect($('#examTopic'),['Todos',...topics]);
+    fillSelect($('#practiceTopic'),['Todos',...topics]);
     $('#practiceTopic').addEventListener('change',e=>{prefs.practice.topic=e.target.value;updateConfig('practice');});
-    $('#examTopic').addEventListener('change',e=>{prefs.exam.topic=e.target.value;updateConfig('exam');});
     makeStars($('#practiceLevel'),'practice');makeStars($('#examLevel'),'exam');
     makeCounts($('#practiceCount'),'practice',[5,10,20]);makeCounts($('#examCount'),'exam',[20,30,40]);
     $('#practiceModes').innerHTML=Object.entries(modes).map(([id,v])=>`<label class="mode-option"><input type="radio" name="practiceMode" value="${id}" ${id==='variety'?'checked':''}><span><strong>${v[0]}</strong><small>${v[1]}</small></span></label>`).join('');
@@ -96,7 +100,9 @@
     if(state.active){showView(state.active.mode==='exam'?'exam':'practice');return;}
     const p={...prefs[kind],...overrides};
     const selectionMode=kind==='practice'?p.mode:'variety';
-    const selected=E.selectProblems(bank,state,{topic:p.topic,level:p.level,count:p.count,mode:selectionMode});
+    let selected;
+    try{selected=kind==='exam'?E.selectExamProblems(bank,state,p):E.selectProblems(bank,state,{topic:p.topic,level:p.level,count:p.count,mode:selectionMode});}
+    catch(error){notify(error.message);return;}
     if(!selected.length){notify('No hay preguntas disponibles con esos filtros.');return;}
     state.active=E.createSession(selected,kind==='exam'?{mode:'exam',variant:'variety',duration:p.minutes*60}:{mode:'practice',variant:selectionMode});
     save();lastResult=null;showView(kind==='exam'?'exam':'practice');
@@ -164,7 +170,7 @@
 
   function renderExamSurface(){const active=state.active?.mode==='exam';$('#examSetup').hidden=active||lastResult?.mode==='exam';$('#examSession').hidden=!active;$('#examResult').hidden=!(lastResult?.mode==='exam');if(active){renderExamQuestion();startTicker();}else if(lastResult?.mode==='exam')renderExamResult();else updateConfig('exam');}
   function renderExamQuestion(){const s=state.active,p=currentProblem();if(!s||!p)return;markSeen(p);const id=E.qid(p),a=s.answers[id],answered=Object.hasOwn(s.answers,id),flagged=s.flags.includes(id),ansCount=Object.keys(s.answers).length;
-    $('#examSession').innerHTML=`<div class="session-shell ${paletteOpen?'':'no-panel'}"><div class="session-main"><div class="session-top"><span class="session-position">Pregunta ${s.index+1} de ${s.ids.length}</span><span class="spacer"></span><span class="exam-clock" id="examClock">${fmtTime(E.remaining(s))}</span></div><article class="question-card">${problemBody(p,a,'exam')}<div class="question-actions"><button type="button" class="button secondary flag-toggle" id="flagQuestion" aria-pressed="${flagged}">${flagged?'★ Marcada':'☆ Marcar para volver'}</button><button type="button" class="button ghost" id="omitQuestion">Omitir por ahora</button></div></article><div class="session-nav"><button class="button secondary" id="examPrev" ${s.index===0?'disabled':''}>← Anterior</button><button class="button primary" id="examNext">${s.index===s.ids.length-1?'Ir al inicio':'Siguiente'} →</button></div></div><aside class="surface side-panel palette-panel" id="palettePanel" ${paletteOpen?'':'hidden'}><button class="button secondary small" id="hidePalette">Ocultar panel</button><p class="eyebrow">Mapa del examen</p><h2>${ansCount}/${s.ids.length} respondidas</h2><div class="palette">${s.ids.map((qid,i)=>`<button type="button" data-index="${i}" class="${s.answers[qid]?'answered ':''}${s.flags.includes(qid)?'flagged ':''}${i===s.index?'current':''}" aria-label="Pregunta ${i+1}${s.answers[qid]?', respondida':''}${s.flags.includes(qid)?', marcada':''}">${i+1}</button>`).join('')}</div><p class="session-note">Verde: respondida · línea ámbar: marcada</p><button class="button danger" id="finishExam">Terminar y entregar</button></aside></div>${paletteOpen?'':`<button class="button primary palette-reopen" id="showPalette">Mostrar preguntas</button>`}`;
+    $('#examSession').innerHTML=`<div class="session-shell ${paletteOpen?'':'no-panel'}"><div class="session-main"><div class="session-top"><span class="session-position">Pregunta ${s.index+1} de ${s.ids.length}</span><span class="spacer"></span><span class="exam-clock" id="examClock">${fmtTime(E.remaining(s))}</span></div><article class="question-card">${problemBody(p,a,'exam')}<div class="question-actions"><button type="button" class="button secondary flag-toggle" id="flagQuestion" aria-pressed="${flagged}">${flagged?'★ Marcada':'☆ Marcar para volver'}</button><button type="button" class="button ghost" id="omitQuestion">Omitir por ahora</button></div></article><div class="session-nav"><button class="button secondary" id="examPrev" ${s.index===0?'disabled':''}>← Anterior</button><button class="button primary" id="examNext">${s.index===s.ids.length-1?'Ir al inicio':'Siguiente'} →</button></div></div><aside class="surface side-panel palette-panel" id="palettePanel" ${paletteOpen?'':'hidden'}><button class="button secondary small" id="hidePalette">Ocultar panel</button><p class="eyebrow">Mapa del examen</p><h2>${ansCount}/${s.ids.length} respondidas</h2><div class="palette">${s.ids.map((qid,i)=>`<button type="button" data-index="${i}" class="${s.answers[qid]?'answered ':''}${s.flags.includes(qid)?'flagged ':''}${i===s.index?'current':''}" aria-label="Pregunta ${i+1}${s.answers[qid]?', respondida':''}${s.flags.includes(qid)?', marcada':''}">${i+1}</button>`).join('')}</div><p class="session-note">Rosa: respondida · línea ámbar: marcada</p><button class="button danger" id="finishExam">Terminar y entregar</button></aside></div>${paletteOpen?'':`<button class="button primary palette-reopen" id="showPalette">Mostrar preguntas</button>`}`;
     $$('.option',$('#examSession')).forEach(b=>{b.disabled=false;b.onclick=()=>answerExam(+b.dataset.choice);});
     $('#flagQuestion').onclick=toggleFlag;$('#omitQuestion').onclick=()=>goExam(1);$('#examPrev').onclick=()=>goExam(-1);$('#examNext').onclick=()=>goExam(s.index===s.ids.length-1?-s.index:1);
     $$('.palette button').forEach(b=>b.onclick=()=>goExamTo(+b.dataset.index));$('#hidePalette')?.addEventListener('click',()=>{paletteOpen=false;renderExamQuestion();});$('#showPalette')?.addEventListener('click',()=>{paletteOpen=true;renderExamQuestion();});$('#finishExam')?.addEventListener('click',askFinish);
@@ -176,7 +182,7 @@
   function askFinish(){const s=state.active,answered=Object.keys(s.answers).length,omitted=s.ids.length-answered;$('#finishDialogText').textContent=omitted?`Quedan ${omitted} pregunta${omitted===1?'':'s'} sin responder. Podrás revisar las soluciones después de entregar.`:'Respondiste todas las preguntas. Podrás revisar las soluciones después de entregar.';$('#finishDialog').showModal();}
   function finishExam(auto=false){if(!state.active||state.active.mode!=='exam')return;const dialog=$('#finishDialog');if(dialog.open)dialog.close('cancel');const ids=[...state.active.ids],summary=E.finishSession(state,bank);lastResult={...summary,mode:'exam',ids};save();renderExamSurface();renderHome();if(auto)notify('Tiempo terminado. El examen se entregó automáticamente.');}
   function renderExamResult(){const r=lastResult,wrong=r.rows.filter(x=>x.choice!==null&&!x.correct).length,omitted=r.rows.filter(x=>x.choice===null).length,answered=r.count-omitted,accuracy=answered?Math.round(r.correct/answered*100):0;
-    $('#examResult').innerHTML=`<section class="surface result-hero"><p class="eyebrow">Examen entregado</p><div class="result-score">${r.correct}/${r.count}</div><h2>Resultado de entrenamiento</h2><div class="result-grid"><div><span>Correctas</span><strong>${r.correct}</strong></div><div><span>Errores</span><strong>${wrong}</strong></div><div><span>Omitidas</span><strong>${omitted}</strong></div><div><span>Precisión respondidas</span><strong>${accuracy}%</strong></div></div><p class="session-note">Tiempo total: ${fmtTime(r.seconds)}. Este simulacro es configurable y no representa una escala oficial.</p><div class="result-actions"><button class="button primary" id="newExam">Nuevo examen</button><button class="button secondary" id="toggleExamReview">Revisar soluciones</button></div></section><div class="result-review" id="examReview" hidden>${r.ids.map((id,i)=>{const p=byId.get(id),a=r.rows.find(x=>x.qid===id);return `<details class="result-item"><summary><strong>Pregunta ${i+1} · ${a?.correct?'Correcta':a?.choice==null?'Omitida':'Incorrecta'}</strong> <span>${a?fmtTime(a.seconds):'—'}</span></summary><div class="study-solution">${problemBody(p,a,'result')}<div class="solution">${solutionHtml(p)}</div></div></details>`;}).join('')}</div>`;
+    $('#examResult').innerHTML=`<section class="surface result-hero"><p class="eyebrow">Examen entregado</p><div class="result-score">${r.correct}/${r.count}</div><h2>Resultado de entrenamiento</h2><div class="result-grid"><div><span>Correctas</span><strong>${r.correct}</strong></div><div><span>Errores</span><strong>${wrong}</strong></div><div><span>Omitidas</span><strong>${omitted}</strong></div><div><span>Precisión respondidas</span><strong>${accuracy}%</strong></div></div><p class="session-note">Tiempo total: ${fmtTime(r.seconds)}. Este simulacro es configurable y no representa una escala oficial.</p><section class="exam-area-results"><h3>Tu resultado por área</h3><div class="exam-coverage">${topics.map(topic=>{const rows=r.rows.filter(a=>byId.get(a.qid)?.tema===topic);if(!rows.length)return "";const correct=rows.filter(a=>a.correct).length;return `<div class="coverage-item"><span>${esc(topic)}</span><strong>${correct}/${rows.length}<small>correctas · ${fmtTime(rows.reduce((sum,a)=>sum+a.seconds,0))}</small></strong></div>`;}).join("")}</div></section><div class="result-actions"><button class="button primary" id="newExam">Nuevo examen</button><button class="button secondary" id="toggleExamReview">Revisar soluciones</button></div></section><div class="result-review" id="examReview" hidden>${r.ids.map((id,i)=>{const p=byId.get(id),a=r.rows.find(x=>x.qid===id);return `<details class="result-item"><summary><strong>Pregunta ${i+1} · ${a?.correct?'Correcta':a?.choice==null?'Omitida':'Incorrecta'}</strong> <span>${a?fmtTime(a.seconds):'—'}</span></summary><div class="study-solution">${problemBody(p,a,'result')}<div class="solution">${solutionHtml(p)}</div></div></details>`;}).join('')}</div>`;
     $('#newExam').onclick=()=>{lastResult=null;renderExamSurface();};$('#toggleExamReview').onclick=()=>{const el=$('#examReview');el.hidden=!el.hidden;$('#toggleExamReview').textContent=el.hidden?'Revisar soluciones':'Ocultar soluciones';};}
 
   function reviewItems(){const latest=E.latestAttempts(state);return [...latest.values()].filter(E.needsReview).sort((a,b)=>b.at-a.at);}
@@ -191,6 +197,16 @@
   async function importProgress(file){if(!file)return;try{const raw=JSON.parse(await file.text()),normalized=E.normalize(raw,bank);if(!confirm('Este respaldo reemplazará el progreso local actual, incluida cualquier sesión activa. ¿Continuar?'))return;if(normalized.active?.mode==='practice'){normalized.active.paused=true;normalized.active.runningSince=0;}state=normalized;readOnly=false;const saved=E.save(storage,state);if(!saved.ok){readOnly=true;showStorage(saved.error);}else{$('#storageAlert').hidden=true;$('#storageAlert').textContent='';}lastResult=null;selectedReviewId='';notify('Progreso importado correctamente.');showView(state.active?(state.active.mode==='exam'?'exam':'practice'):'home');}catch(err){showStorage('Archivo no válido. Elige un respaldo exportado por TrainerMath. Tu progreso se conserva.');notify('El archivo no es un respaldo válido.');}finally{$('#importProgress').value='';}}
 
   function bind(){
+    const tips=[
+      ['Encuentra el camino corto.','Antes de operar, identifica qué dato elimina alternativas. La velocidad empieza en el criterio.'],
+      ['Completa la decena.','Para sumar 8 + 7, piensa 8 + 2 + 5 = 15. En Anzan, guarda el subtotal y sigue.'],
+      ['Estima antes de calcular.','Si piden 19% de 300, el resultado estará cerca de 60 y será menor. Luego calcula 20% menos 1%: 57.'],
+      ['Cambia de pregunta a tiempo.','Si te atoras en el simulacro, marca la pregunta y continúa. Regresa cuando hayas asegurado los casos que reconoces.'],
+      ['Reconoce una diferencia de cuadrados.','Para 49 × 51, usa (50 − 1)(50 + 1) = 2500 − 1. Reconocer la forma ahorra operaciones.']
+    ];
+    let tipIndex=0;
+    const nextTip=()=>{tipIndex=(tipIndex+1)%tips.length;$('#dailyTitle').textContent=tips[tipIndex][0];$('#dailyTip').textContent=tips[tipIndex][1];const mascot=$('#mascotTip');mascot.classList.remove('tip-bounce');requestAnimationFrame(()=>mascot.classList.add('tip-bounce'));};
+    $('#mascotTip').addEventListener('click',nextTip);$('#nextTip').addEventListener('click',nextTip);
     $$('[data-nav]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();showView(b.dataset.nav);}));
     $$('[data-preset]').forEach(b=>b.onclick=()=>{prefs.practice.mode=b.dataset.preset;showView('practice');$$('input[name="practiceMode"]').forEach(i=>i.checked=i.value===prefs.practice.mode);updateConfig('practice');});
     $('#quickStart').onclick=()=>state.active?showView(state.active.mode==='exam'?'exam':'practice'):selectAndStart('practice',{count:10,mode:'variety'});
@@ -212,6 +228,7 @@
 
   function init(){
     if(!E){document.body.innerHTML='<p style="padding:24px">No se pudo iniciar TrainerMath.</p>';return;}
+    anzan=window.TrainerAnzan?.init($('#view-anzan'));
     setupConfigs();bind();
     if(loaded.warning)showStorage(loaded.warning);
     if(!bank.length)showStorage('El banco de preguntas no está disponible. Vuelve a generar la aplicación.');
@@ -219,7 +236,7 @@
     let entered=false;try{entered=storage.getItem('trainermath_brenda_entered')==='1';}catch(_){}
     const legacyHash=location.hash.match(/^#p\/(.+)$/);
     $('#enterApp').onclick=()=>{try{storage.setItem('trainermath_brenda_entered','1');}catch(_){}$('#accessGate').hidden=true;$('#appShell').hidden=false;const target=state.active?(state.active.mode==='exam'?'exam':'practice'):(legacyHash?'practice':'home');showView(target,false);if(legacyHash&&!state.active){showStudy();openStudy(legacyHash[1]);}};
-    if(entered){$('#accessGate').hidden=true;$('#appShell').hidden=false;const hash=location.hash.replace('#','');const mapped={inicio:'home',home:'home',practice:'practice',exam:'exam',review:'review'}[hash];showView(state.active?(state.active.mode==='exam'?'exam':'practice'):(legacyHash?'practice':(mapped||'home')),false);if(legacyHash&&!state.active){showStudy();openStudy(legacyHash[1]);}}
+    if(entered){$('#accessGate').hidden=true;$('#appShell').hidden=false;const hash=location.hash.replace('#','');const mapped={inicio:'home',home:'home',practice:'practice',exam:'exam',review:'review',anzan:'anzan'}[hash];showView(state.active?(state.active.mode==='exam'?'exam':'practice'):(legacyHash?'practice':(mapped||'home')),false);if(legacyHash&&!state.active){showStudy();openStudy(legacyHash[1]);}}
     renderHome();
   }
   init();

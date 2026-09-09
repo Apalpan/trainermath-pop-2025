@@ -1,8 +1,8 @@
 :root{
   color-scheme:light;
-  --brand:#00805d;--brand-hover:#006e50;--brand-soft:#e8f6f1;--brand-line:#b8e1d2;
-  --bg:#f5f8f7;--surface:#fff;--surface-soft:#edf3f1;--ink:#10251f;--muted:#52645f;
-  --line:#d7e2de;--line-strong:#bdccc7;--danger:#b4233a;--danger-soft:#fff0f2;
+  --brand:#963e60;--brand-hover:#7d2f4e;--brand-soft:#faeaf0;--brand-line:#e7bbcb;
+  --bg:#fcf8fa;--surface:#fff;--surface-soft:#f6eff2;--ink:#33252d;--muted:#6e5965;
+  --line:#eadce3;--line-strong:#cdb5c1;--danger:#b4233a;--danger-soft:#fff0f2;
   --warning:#9a5a00;--warning-soft:#fff7df;--success:#087a58;
   --shadow:0 1px 2px rgba(16,37,31,.05),0 16px 40px -28px rgba(16,37,31,.32);
   --radius:18px;--radius-sm:12px;--ease-out:cubic-bezier(.23,1,.32,1);

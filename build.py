@@ -3,6 +3,7 @@
 import json
 import re
 import html
+import base64
 from pathlib import Path
 from data_p1 import PROBLEMS_1
 from data_p2 import PROBLEMS_2
@@ -47,12 +48,15 @@ def load_bank():
 def main():
     bank = load_bank()
     template = (ROOT / 'web/template.html').read_text(encoding='utf-8')
-    css = '\n'.join((ROOT / 'web' / file).read_text(encoding='utf-8-sig') for file in ('legacy-math.css','app.css'))
+    css = '\n'.join((ROOT / 'web' / file).read_text(encoding='utf-8-sig') for file in ('legacy-math.css','app.css','brand.css','anzan.css'))
     replacements = {
         '__CSS__':css,
         '__DATA__':json.dumps(bank,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'),
         '__ENGINE__':(ROOT/'web/engine.js').read_text(encoding='utf-8'),
+        '__ANZAN__':(ROOT/'web/anzan.js').read_text(encoding='utf-8'),
         '__APP__':(ROOT/'web/app.js').read_text(encoding='utf-8'),
+        '__LOGO__':'data:image/svg+xml;base64,'+base64.b64encode((ROOT/'assets/trainermath-mark.svg').read_bytes()).decode('ascii'),
+        '__MASCOT__':'data:image/png;base64,'+base64.b64encode((ROOT/'assets/aecodito.png').read_bytes()).decode('ascii'),
     }
     for token, content in replacements.items():
         assert token in template, f'Missing template token {token}'

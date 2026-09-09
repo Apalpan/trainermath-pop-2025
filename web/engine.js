@@ -101,6 +101,33 @@
     }
     return result;
   }
+  function examPlan(bank, options = {}, state = emptyState()) {
+    const topics = [...new Set(filtered(bank).map(p => p.tema))];
+    const pool = filtered(bank, {level: options.level});
+    const areas = topics.map(topic => ({topic, available: pool.filter(p => p.tema === topic).length, count: 0}));
+    const count = Math.min(Math.max(0, Math.trunc(numeric(options.count, 20))), pool.length);
+    if (!areas.length || areas.some(a => !a.available) || count < areas.length) return {areas, count: 0, available: pool.length, error: 'Este nivel no permite incluir todas las áreas. Elige Todos los niveles.'};
+    // Rotate the remainder between exams, so no area always receives more questions.
+    const offset = state.sessions.filter(s => s.mode === 'exam').length % areas.length;
+    let assigned = 0;
+    while (assigned < count) {
+      for (let i = 0; i < areas.length && assigned < count; i++) {
+        const area = areas[(i + offset) % areas.length];
+        if (area.count < area.available) { area.count++; assigned++; }
+      }
+    }
+    return {areas, count, available: pool.length, error: ''};
+  }
+  function selectExamProblems(bank, state, options = {}, rng = Math.random) {
+    const plan = examPlan(bank, options, state);
+    if (plan.error) throw new Error(plan.error);
+    const selected = plan.areas.flatMap(area => selectProblems(bank, state, {topic: area.topic, level: options.level, count: area.count, mode: 'variety'}, rng));
+    for (let i = selected.length - 1; i > 0; i--) {
+      const j = Math.min(i, Math.max(0, Math.floor(rng() * (i + 1))));
+      [selected[i], selected[j]] = [selected[j], selected[i]];
+    }
+    return selected;
+  }
   function createSession(problems, options = {}, now = Date.now()) {
     const ids = problems.map(qid);
     if (!ids.length || new Set(ids).size !== ids.length) throw new Error('No hay preguntas nuevas disponibles con estos filtros.');
@@ -181,7 +208,7 @@
       median, correctPerMinute:totalSeconds ? correct.length/(totalSeconds/60) : null, fast:correct.filter(a=>a.seconds>0 && a.seconds<=a.target).length,
       seen:Object.keys(state.seen).length, review:[...latestAttempts(state).values()].filter(needsReview).length, topics};
   }
-  const api = {KEY,VERSION,qid,emptyState,normalize,load,save,filtered,latestAttempts,needsReview,selectProblems,createSession,remaining,checkpoint,answer,recordAttempt,finishSession,stats};
+  const api = {KEY,VERSION,qid,emptyState,normalize,load,save,filtered,latestAttempts,needsReview,selectProblems,examPlan,selectExamProblems,createSession,remaining,checkpoint,answer,recordAttempt,finishSession,stats};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.TrainerEngine = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
