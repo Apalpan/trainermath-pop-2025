@@ -1,30 +1,93 @@
-# TrainerMath · POP 2025
+# TrainerMath · Brenda Sofía
 
-Entrenador interactivo del **examen Reconstruido PUCP — Primera Opción 2025** (23-nov-2025, Academia Prisma): los 62 problemas resueltos paso a paso. Tema light, single-file.
+Entrenamiento de precisión, velocidad y criterio para admisión. **510 ejercicios**:
+448 nuevos en 56 familias matemáticas y los 62 originales POP 2025, con sus
+soluciones y figuras. Las cinco copias declaradas del examen original se conservan
+para estudio y se excluyen del sorteo de entrenamiento: **505 preguntas elegibles**.
 
-**Live:** https://apalpan.github.io/trainermath-pop-2025/
+**Aplicación:** [Abrir TrainerMath](https://apalpan.github.io/trainermath-pop-2025/)
 
 ## Uso
 
-Abrir `index.html` en cualquier navegador. Sin dependencias ni build de JS (single-file).
+- **Inicio:** entrar al perfil local de Brenda Sofía y comenzar una práctica.
+- **Práctica:** tema, estrellas, cantidad y enfoque (variedad, adaptativo, velocidad
+  o repaso). Prioriza preguntas no vistas y distintas familias; recicla las más
+  antiguas solo al agotar el filtro. El repaso recupera errores de forma deliberada.
+- **Aprendizaje:** pista opcional, atajo, trampa habitual y solución con revelado
+  progresivo. La explicación no aumenta el tiempo de resolución.
+- **Examen CEPRE:** elegir preguntas y minutos. Cambiar respuestas, marcar y navegar;
+  las soluciones se muestran después de entregar. El reloj total persiste al
+  recargar y la entrega es automática al vencer el tiempo.
+- **Revisión:** errores, respuestas con pista y aciertos fuera del tiempo objetivo.
+- **Teclado:** A–D o 1–4 responden en la sesión visible; flechas navegan el examen;
+  Escape cancela el diálogo de entrega.
+- **Respaldo:** exportar e importar el progreso desde el pie de la aplicación.
 
-- **Estudio**: grid de 62 problemas filtrable por tema (Aritmética, Álgebra, Geometría, Probabilidad, Estadística) y estado (pendientes / correctos / fallados). Cada problema: responde primero → feedback → resolución paso a paso con revelado progresivo, respuesta final e idea clave.
-- **Simulacro**: preguntas al azar por tema, cronómetro, resumen final con revisión.
-- **Teclado**: `A–D`/`1–4` responder · `Espacio` siguiente paso · `←/→` navegar · `Esc` cerrar.
-- Progreso en `localStorage` (`tm_pop2025_v1`).
+Los tiempos son **metas pedagógicas**, pendientes de calibración con uso real.
+El simulacro es configurable y no afirma reproducir una convocatoria o escala
+oficial CEPRE. La mejora real se evalúa comparando precisión y tiempo a igual tema
+y nivel durante varias sesiones.
 
-## Regenerar
+El perfil es local, sin contraseña ni autenticación remota. No hay sincronización
+entre dispositivos. Se conserva la clave antigua `tm_pop2025_v1` y se migra su
+progreso al nuevo almacenamiento `trainermath_brenda_v3`. No se atribuyen tiempos
+inventados a intentos antiguos.
 
+## Ejecutar y construir
+
+Abrir `index.html` directamente, incluso sin conexión, o servirlo localmente:
+
+```powershell
+python build.py
+python -m http.server 8768 --bind 127.0.0.1
 ```
-python build.py   →  index.html
+
+No requiere frameworks ni dependencias de frontend. `build.py` produce un único
+HTML con estilos, datos y JavaScript incluidos. Las fuentes editables están en
+`web/`; el banco nuevo, en `data/`; las figuras y resoluciones originales,
+en `figs.py` y `data_p1.py` a `data_p4.py`.
+
+## Validar
+
+```powershell
+python scripts/validate_bank.py
+python scripts/validate_trigonometry.py
+node scripts/test-engine.cjs
+python build.py
+node --check web/app.js
 ```
 
-- `data_p1..p4.py` — enunciados, opciones, respuesta y pasos de los 62 problemas.
-- `figs.py` — figuras SVG (21) generadas con coordenadas calculadas.
-- `mh.py` — helpers de notación matemática (fracciones, raíces) en HTML/CSS puro.
+Los validadores comprueban resultados exactos, alternativas, dominios y
+duplicados de parámetros matemáticos, además de enunciados. La prueba de navegador
+`scripts/smoke-browser.cjs` necesita Playwright disponible en el entorno, el
+servidor local y guarda capturas en `output/playwright/`.
 
-## Verificación
+## Material local de academia
 
-- Las 62 respuestas fueron validadas por fuerza bruta/cómputo directo en Python (55 checks automáticos + 7 triviales a mano).
-- Erratas del PDF reconstruido documentadas en la app (campo `nota`): P6 (alternativas A y C repetidas), P14 (línea «calcular √A» cortada), P49 («lleno» → «llano»), P51 («m²» → «cm²»).
-- Fuente: `Reconstruido-examen-Primera-Opcion-2025.pdf`.
+`Informacion/` y `output/` se excluyen de Git. Los PDFs, imágenes OCR y textos
+extraídos **no se publican**. Solo se versiona metadata de procedencia.
+
+Inventario: 73 archivos PDF, 42 documentos únicos, 31 copias idénticas. Índice:
+868 fragmentos, con 287 páginas recuperadas por OCR local. Vectorización
+**TF-IDF y similitud coseno**, sin API ni embeddings semánticos.
+
+```powershell
+python scripts/ingest_material.py
+python scripts/search_material.py 'porcentajes sucesivos' --limit 8
+```
+
+La extracción usa PyMuPDF o pypdf. Para repetir OCR se requiere PyMuPDF y una
+instalación local de Tesseract.js 7 en la carpeta de herramientas ignorada:
+
+```powershell
+npm install --prefix output/ocr-tooling --no-audit --no-fund tesseract.js@7
+python scripts/render_ocr_pages.py
+node scripts/ocr_material.cjs
+python scripts/ingest_material.py
+```
+
+El OCR sirve para localizar temas; las fórmulas, claves y diagramas se revisan
+visualmente antes de usarlos. Los ejercicios nuevos son elaboraciones originales
+alineadas con el material, no transcripciones automáticas. Véanse
+`docs/material-audit.md`, `docs/exercise-bank.md` y
+`docs/production-checklist.md` para cobertura y evidencia.

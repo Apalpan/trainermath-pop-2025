@@ -1,0 +1,6 @@
+Informacion/
+__pycache__/
+*.pyc
+node_modules/
+output/
+.env*

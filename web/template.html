@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#00805d">
+  <meta name="description" content="Entrenador de velocidad matemática para Brenda Sofía, con práctica variada y simulacros CEPRE configurables.">
+  <title>TrainerMath · Brenda Sofía</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2300805d'/%3E%3Cpath d='M17 18h30v7H36v22h-8V25H17z' fill='white'/%3E%3C/svg%3E">
+  <style>__CSS__</style>
+</head>
+<body>
+  <section class="access" id="accessGate" aria-labelledby="accessTitle">
+    <div class="access-card">
+      <div class="logo logo-large" aria-hidden="true">T</div>
+      <p class="eyebrow">TrainerMath</p>
+      <h1 id="accessTitle">Entrena para resolver antes.</h1>
+      <p>Práctica matemática de velocidad preparada para <strong>Brenda Sofía</strong>.</p>
+      <button class="button primary wide" id="enterApp" type="button">Entrar a mi entrenamiento</button>
+      <p class="local-note">Acceso local: no usa cuenta ni contraseña. Tu progreso se guarda solo en este navegador.</p>
+    </div>
+  </section>
+
+  <div class="app-shell" id="appShell" hidden>
+    <header class="topbar">
+      <a class="brand" href="#inicio" data-nav="home" aria-label="TrainerMath, ir a Inicio">
+        <span class="logo" aria-hidden="true">T</span>
+        <span><strong>TrainerMath</strong><small>Velocidad CEPRE</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <button type="button" data-nav="home">Inicio</button>
+        <button type="button" data-nav="practice">Práctica</button>
+        <button type="button" data-nav="exam">Examen CEPRE</button>
+        <button type="button" data-nav="review">Revisión</button>
+      </nav>
+      <div class="profile" aria-label="Perfil local de Brenda Sofía">
+        <span class="avatar" aria-hidden="true">BS</span>
+        <span><strong>Brenda Sofía</strong><small>Perfil local</small></span>
+      </div>
+    </header>
+
+    <div class="storage-alert" id="storageAlert" role="status" hidden></div>
+
+    <main id="mainContent" tabindex="-1">
+      <section class="view" id="view-home" data-view="home" aria-labelledby="homeTitle">
+        <div class="home-hero">
+          <div>
+            <p class="eyebrow">Tu siguiente entrenamiento</p>
+            <h1 id="homeTitle">Gana segundos sin perder criterio.</h1>
+            <p>Practica casos variados, mide solo tu tiempo de resolución y aprende el atajo después de responder.</p>
+            <div class="hero-actions">
+              <button class="button primary" type="button" id="quickStart">Practicar 10 preguntas</button>
+              <button class="button secondary" type="button" data-nav="exam">Configurar examen CEPRE</button>
+            </div>
+          </div>
+          <aside class="daily-card" aria-label="Consejo de entrenamiento">
+            <span class="daily-icon" aria-hidden="true">↗</span>
+            <p class="eyebrow">Método rápido</p>
+            <h2>Lee la condición decisiva primero.</h2>
+            <p>Antes de operar, identifica qué dato elimina alternativas. La velocidad empieza en el criterio.</p>
+          </aside>
+        </div>
+        <div class="metrics" id="homeMetrics"></div>
+        <div class="home-grid">
+          <section class="surface">
+            <div class="section-head"><div><p class="eyebrow">Progreso real</p><h2>Rendimiento por tema</h2></div></div>
+            <div id="topicProgress" class="topic-progress"></div>
+          </section>
+          <section class="surface next-actions">
+            <div class="section-head"><div><p class="eyebrow">Ahora</p><h2>Elige una intención</h2></div></div>
+            <button type="button" data-preset="speed"><span>⚡</span><span><strong>Velocidad</strong><small>Metas de hasta 60 segundos</small></span><b>→</b></button>
+            <button type="button" data-preset="adaptive"><span>◎</span><span><strong>Refuerza tus temas débiles</strong><small>Selección adaptativa según tus intentos</small></span><b>→</b></button>
+            <button type="button" data-preset="review"><span>↺</span><span><strong>Corrige lo pendiente</strong><small id="reviewActionLabel">Errores, pistas y respuestas lentas</small></span><b>→</b></button>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-practice" data-view="practice" hidden aria-labelledby="practiceTitle">
+        <div class="page-head">
+          <div><p class="eyebrow">Entrenamiento deliberado</p><h1 id="practiceTitle">Práctica</h1><p>Resuelve, recibe feedback preciso y aprende el método rápido.</p></div>
+          <div class="segmented" role="tablist" aria-label="Modo de práctica">
+            <button type="button" role="tab" id="practiceTab" aria-selected="true" aria-controls="practiceSetup">Entrenar</button>
+            <button type="button" role="tab" id="studyTab" aria-selected="false" aria-controls="studyArea">Estudio original</button>
+          </div>
+        </div>
+
+        <form class="config-grid" id="practiceSetup">
+          <section class="surface config-main">
+            <div class="section-head"><div><p class="eyebrow">Configura tu sesión</p><h2>¿Qué quieres entrenar?</h2></div><span class="pool-badge" id="practicePool">— disponibles</span></div>
+            <div class="field-grid">
+              <label>Tema<select id="practiceTopic" name="topic"></select></label>
+              <fieldset><legend>Nivel</legend><div class="star-picker" id="practiceLevel"></div></fieldset>
+              <fieldset><legend>Cantidad</legend><div class="choice-row" id="practiceCount"></div></fieldset>
+            </div>
+            <fieldset class="mode-field"><legend>Enfoque</legend><div class="mode-grid" id="practiceModes"></div></fieldset>
+            <div class="config-footer"><p id="practiceEstimate">Selecciona tus filtros.</p><button class="button primary" type="submit">Comenzar práctica</button></div>
+          </section>
+          <aside class="surface prep-card">
+            <p class="eyebrow">Antes de empezar</p><h2>Una pregunta a la vez.</h2>
+            <ul><li>El reloj se detiene al responder.</li><li>La explicación no suma a tu tiempo.</li><li>Usa <kbd>1</kbd>–<kbd>4</kbd> o <kbd>A</kbd>–<kbd>D</kbd>.</li><li>Las preguntas exactas no se repiten hasta agotar el filtro.</li></ul>
+          </aside>
+        </form>
+
+        <section id="practiceSession" hidden></section>
+        <section id="practiceResult" hidden></section>
+        <section id="studyArea" hidden></section>
+      </section>
+
+      <section class="view" id="view-exam" data-view="exam" hidden aria-labelledby="examTitle">
+        <div class="page-head">
+          <div><p class="eyebrow">Simulacro configurable</p><h1 id="examTitle">Examen CEPRE</h1><p>Entrenamiento de ritmo y decisión. No es un examen oficial ni reproduce una convocatoria específica.</p></div>
+        </div>
+        <form class="surface exam-config" id="examSetup">
+          <div class="section-head"><div><p class="eyebrow">Condiciones</p><h2>Arma tu simulacro</h2></div><span class="pool-badge" id="examPool">— disponibles</span></div>
+          <div class="field-grid exam-fields">
+            <label>Tema<select id="examTopic" name="topic"></select></label>
+            <fieldset><legend>Nivel</legend><div class="star-picker" id="examLevel"></div></fieldset>
+            <fieldset><legend>Preguntas</legend><div class="choice-row" id="examCount"></div></fieldset>
+            <label>Minutos<select id="examMinutes" name="minutes"><option value="20">20 min</option><option value="40" selected>40 min</option><option value="60">60 min</option></select></label>
+          </div>
+          <div class="exam-rules"><p><strong>Durante el examen</strong></p><p>No verás pistas, aciertos ni soluciones hasta entregar. Puedes cambiar respuestas, omitir y marcar preguntas.</p></div>
+          <div class="config-footer"><p id="examEstimate">El tiempo total continúa aunque recargues u ocultes la página.</p><button class="button primary" type="submit">Iniciar examen</button></div>
+        </form>
+        <section id="examSession" hidden></section>
+        <section id="examResult" hidden></section>
+      </section>
+
+      <section class="view" id="view-review" data-view="review" hidden aria-labelledby="reviewTitle">
+        <div class="page-head">
+          <div><p class="eyebrow">Aprende de tus intentos</p><h1 id="reviewTitle">Revisión</h1><p>Vuelve a los errores, preguntas asistidas y respuestas que superaron la meta.</p></div>
+          <button class="button secondary" type="button" id="startReview">Practicar pendientes</button>
+        </div>
+        <div class="review-layout"><section class="surface" id="reviewList"></section><aside class="surface review-detail" id="reviewDetail"></aside></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p><strong>TrainerMath</strong> · uso educativo · progreso en este navegador</p>
+      <div><button type="button" class="text-button" id="exportProgress">Exportar progreso</button><button type="button" class="text-button" id="importProgressButton">Importar progreso</button><input id="importProgress" type="file" accept="application/json,.json" hidden></div>
+    </footer>
+  </div>
+
+  <dialog id="finishDialog">
+    <form method="dialog" class="dialog-card">
+      <p class="eyebrow">Confirmar entrega</p><h2>¿Terminar el examen?</h2>
+      <p id="finishDialogText">Podrás revisar las soluciones después de entregar.</p>
+      <div class="dialog-actions"><button class="button secondary" value="cancel">Seguir resolviendo</button><button class="button danger" id="confirmFinish" value="confirm">Entregar examen</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script>window.TRAINER_DATA = __DATA__;</script>
+  <script>__ENGINE__</script>
+  <script>__APP__</script>
+</body>
+</html>

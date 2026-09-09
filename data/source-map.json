@@ -1,0 +1,492 @@
+{
+  "schema_version": 1,
+  "generated_from": "Informacion PDFs; metadata only",
+  "corpus": {
+    "files_discovered": 73,
+    "unique_documents": 42,
+    "duplicate_file_copies": 31,
+    "failed_documents": 0
+  },
+  "sources": [
+    {
+      "path": "Informacion/ARITMÉTICA - PRISMA 2024 (1).pdf",
+      "page_count": 34,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Probabilidad y estadística"
+      ],
+      "ocr_pages": 34,
+      "ocr_mean_confidence": 69.1
+    },
+    {
+      "path": "Informacion/ARITMÉTICA - PRISMA 2025 (1).pdf",
+      "page_count": 37,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Probabilidad y estadística"
+      ],
+      "ocr_pages": 35,
+      "ocr_mean_confidence": 76.1
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 1 Semana 1 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 1 Semana 2 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 2 Semana 1 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 2 Semana 2 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 3 Semana 1 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 3 Semana 2 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 4 Semana 1 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 4 Semana 2 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Claves CRP Hora 5 Semana 2 2026.7 LL.pdf",
+      "page_count": 1,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 1 Semana 3 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 1 Semana 4 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 1 Semana 5 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 2 Semana 3 2026.7 LL (1).pdf",
+      "page_count": 3,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 2 Semana 4 2026.7 LL.pdf",
+      "page_count": 3,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 2 Semana 5 2026.7 LL.pdf",
+      "page_count": 3,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 3 Semana 3 2026.7 LL.pdf",
+      "page_count": 3,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 3 Semana 4 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 3 Semana 5 2026.7 LL.pdf",
+      "page_count": 3,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 4 Semana 3 2026.7 LL.pdf",
+      "page_count": 6,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Trigonometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 4 Semana 4 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Geometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 4 Semana 5 2026.7 LL.pdf",
+      "page_count": 6,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 5 Semana 3 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 5 Semana 4 2026.7 LL.pdf",
+      "page_count": 5,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/CRP Hora 5 Semana 5 2026.7 LL.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Geometría",
+        "Trigonometría",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Practiquemos Semana 1 CC.pdf",
+      "page_count": 14,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Practiquemos semana 4 cc.pdf",
+      "page_count": 11,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Practiquemos semana 5 cc.pdf",
+      "page_count": 12,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Seminario - Semana 4  CC.pdf",
+      "page_count": 4,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Simulacro Paideia - Semana 2 CC.pdf",
+      "page_count": 11,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Probabilidad y estadística",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Simulacro Paideia - Semana 3 CC.pdf",
+      "page_count": 11,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/CIENCIAS PRACTICAS/Simulacro Paideia - Semana 5 - 2026.7 - LL.pdf",
+      "page_count": 10,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 0,
+      "ocr_mean_confidence": null
+    },
+    {
+      "path": "Informacion/GEOMETRÍA - PRISMA 2024 (1).pdf",
+      "page_count": 33,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría"
+      ],
+      "ocr_pages": 33,
+      "ocr_mean_confidence": 55.5
+    },
+    {
+      "path": "Informacion/GEOMETRÍA - PRISMA 2025 (1).pdf",
+      "page_count": 48,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Geometría"
+      ],
+      "ocr_pages": 45,
+      "ocr_mean_confidence": 71.7
+    },
+    {
+      "path": "Informacion/SAB seminario 2  CC resuelto.pdf",
+      "page_count": 23,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 22,
+      "ocr_mean_confidence": 69.8
+    },
+    {
+      "path": "Informacion/Seminario 1 resuelto.pdf",
+      "page_count": 23,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 22,
+      "ocr_mean_confidence": 68.1
+    },
+    {
+      "path": "Informacion/Seminario 3 cc.pdf",
+      "page_count": 25,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 24,
+      "ocr_mean_confidence": 70.4
+    },
+    {
+      "path": "Informacion/Seminario 4 resuelto CC.pdf",
+      "page_count": 25,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 24,
+      "ocr_mean_confidence": 69.5
+    },
+    {
+      "path": "Informacion/Seminario 5.pdf",
+      "page_count": 23,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Aritmética",
+        "Álgebra",
+        "Geometría",
+        "Ciencias prácticas"
+      ],
+      "ocr_pages": 22,
+      "ocr_mean_confidence": 66.8
+    },
+    {
+      "path": "Informacion/TRIGONOMETRÍA - PRISMA 2024 (1).pdf",
+      "page_count": 10,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Álgebra",
+        "Geometría",
+        "Trigonometría"
+      ],
+      "ocr_pages": 10,
+      "ocr_mean_confidence": 61.3
+    },
+    {
+      "path": "Informacion/TRIGONOMETRÍA - PRISMA 2025 (1).pdf",
+      "page_count": 18,
+      "extraction_quality": "usable_text",
+      "topics": [
+        "Geometría",
+        "Trigonometría"
+      ],
+      "ocr_pages": 16,
+      "ocr_mean_confidence": 68.4
+    }
+  ]
+}
