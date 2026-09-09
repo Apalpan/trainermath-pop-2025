@@ -81,11 +81,13 @@
     const latest = latestAttempts(state);
     if (options.mode === 'review') pool = pool.filter(p => needsReview(latest.get(qid(p))));
     const topicStats = stats(state).topics;
+    const adaptiveIndex = options.mode === 'adaptive' && root.TrainerAdaptive ? root.TrainerAdaptive.buildPriorityIndex(state,bank) : null;
     const ranked = pool.map(p => {
       const seen = Object.hasOwn(state.seen, qid(p));
       const weakness = topicStats[p.tema] ? 1 - topicStats[p.tema].accuracy / 100 : 0.4;
-      // Unseen questions always precede recycled questions. Within those, mix families and weak topics.
-      return {p, priority: seen ? 1 : 0, age: seen ? state.seen[qid(p)] : 0, score: rng() + (options.mode === 'adaptive' ? weakness * .8 : 0)};
+      const adaptive = adaptiveIndex ? adaptiveIndex(p) : weakness;
+      // Unseen questions always precede recycled questions. Within each group, prioritize the weak unit and due families.
+      return {p, priority: seen ? 1 : 0, age: seen ? state.seen[qid(p)] : 0, score: rng() + (options.mode === 'adaptive' ? adaptive * 1.15 : 0)};
     }).sort((a,b) => a.priority-b.priority || (a.priority ? a.age-b.age : b.score-a.score));
     const result = [];
     const count = Math.min(Math.max(0, Math.trunc(numeric(options.count,10))), ranked.length);

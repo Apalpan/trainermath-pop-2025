@@ -18,7 +18,7 @@
       <h1 id="accessTitle">Tu mente, un paso más rápido.</h1>
       <p>Práctica matemática de velocidad preparada para <strong>Brenda Sofía</strong>.</p>
       <button class="button primary wide" id="enterApp" type="button">Entrar a mi entrenamiento</button>
-      <p class="local-note">Acceso local: no usa cuenta ni contraseña. Tu progreso se guarda solo en este navegador.</p>
+      <p class="local-note">Acceso personal sin contraseña. Tu avance se conserva en este dispositivo y, cuando la conexión privada está activa, también se respalda en la nube.</p>
     </div>
   </section>
 
@@ -35,9 +35,9 @@
         <button type="button" data-nav="exam">Examen CEPRE</button>
         <button type="button" data-nav="review">Revisión</button>
       </nav>
-      <div class="profile" aria-label="Perfil local de Brenda Sofía">
+      <div class="profile" aria-label="Perfil de Brenda Sofía">
         <span class="avatar" aria-hidden="true">BS</span>
-        <span><strong>Brenda Sofía</strong><small>Perfil local</small></span>
+        <span><strong>Brenda Sofía</strong><small id="syncStatus">Conectando…</small></span>
       </div>
     </header>
 
@@ -62,6 +62,7 @@
           </aside>
         </div>
         <div class="metrics" id="homeMetrics"></div>
+        <section class="surface adaptive-brief" id="adaptiveBrief" aria-live="polite"></section>
         <div class="home-grid">
           <section class="surface">
             <div class="section-head"><div><p class="eyebrow">Progreso real</p><h2>Rendimiento por tema</h2></div></div>
@@ -148,9 +149,17 @@
     </main>
 
     <footer class="footer">
-      <p><strong>TrainerMath</strong> · uso educativo · progreso en este navegador</p>
+      <p><strong>TrainerMath</strong> · uso educativo · <span id="footerSyncStatus">progreso en este navegador</span></p>
       <div><button type="button" class="text-button" id="exportProgress">Exportar progreso</button><button type="button" class="text-button" id="importProgressButton">Importar progreso</button><input id="importProgress" type="file" accept="application/json,.json" hidden></div>
     </footer>
+
+    <button class="coach-launcher" id="coachLauncher" type="button" aria-controls="coachDrawer" aria-expanded="false">
+      <img src="__MASCOT__" alt="" width="54" height="54"><span>Pregunta a Aecodito</span><b id="coachDot" aria-hidden="true"></b>
+    </button>
+    <aside class="coach-drawer" id="coachDrawer" role="dialog" aria-labelledby="coachTitle" hidden>
+      <header class="coach-head"><div><p class="eyebrow">Tutor de velocidad</p><h2 id="coachTitle">Aecodito</h2></div><button class="icon-button" id="closeCoach" type="button" aria-label="Cerrar Aecodito">×</button></header>
+      <div class="coach-body" id="coachContent"></div>
+    </aside>
   </div>
 
   <dialog id="finishDialog">
@@ -165,7 +174,9 @@
 
   <script>window.TRAINER_DATA = __DATA__; window.TRAINER_SYLLABUS = __SYLLABUS__;</script>
   <script>__ENGINE__</script>
+  <script>__ADAPTIVE__</script>
   <script>__ANZAN__</script>
+  <script>__BACKEND__</script>
   <script>__APP__</script>
 </body>
 </html>

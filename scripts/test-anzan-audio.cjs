@@ -91,7 +91,7 @@ async function testCancelAndExit(browser){
   await page.locator('#anzanConfig [type="submit"]').click();await page.locator('#anzanPrepCancel').click();await page.waitForTimeout(2300);
   assert.equal((await probe(page)).starts,0,'cancelled preparation must never start tones');
   await configure(page,{sound:true,mode:'auto',speed:'0.25'});await page.locator('#anzanConfig [type="submit"]').click();await page.locator('.anzan-stage').waitFor({timeout:4000});await page.waitForFunction(()=>window.__anzanAudio.starts>=1);
-  const before=(await probe(page)).starts;await page.locator('#anzanExit').click();await page.waitForTimeout(500);assert.equal((await probe(page)).starts,before,'exit must cancel all later tones');
+  await page.locator('#anzanExit').click();const afterExit=(await probe(page)).starts;await page.waitForTimeout(500);assert.equal((await probe(page)).starts,afterExit,'exit must cancel all later tones');
   await page.close();
 }
 

@@ -16,7 +16,11 @@ para estudio. También se apartan 10 casos complementarios al temario:
   o repaso). Prioriza preguntas no vistas y distintas familias; recicla las más
   antiguas solo al agotar el filtro. El repaso recupera errores de forma deliberada.
 - **Aprendizaje:** pista opcional, atajo, trampa habitual y solución con revelado
-  progresivo. La explicación no aumenta el tiempo de resolución.
+  progresivo. Aecodito dispone de 41 trucos curados con condición, regla, ejemplo
+  y control; la explicación no aumenta el tiempo de resolución.
+- **Adaptación:** calcula evidencia por unidad y familia, combina precisión,
+  velocidad, ayuda usada y repaso 1/3/7/14 días. Una unidad queda “a velocidad”
+  solo con 4 de los últimos 5 casos correctos, sin pista, dentro de meta y en dos sesiones.
 - **Anzan:** cifras del 1 al 9, cantidad 5/10/15/20; velocidad editable entre 0,25 y
   5 segundos en pasos de 0,05. Acepta coma o punto, con accesos 0,75/1,25/1,5/1,75.
   Presentación automática o flecha derecha/Espacio. Preparación 3–2–1 con Aecodito,
@@ -33,16 +37,24 @@ para estudio. También se apartan 10 casos complementarios al temario:
 - **Teclado:** A–D o 1–4 responden en la sesión visible; flechas navegan el examen;
   Escape cancela el diálogo de entrega.
 - **Respaldo:** exportar e importar el progreso desde el pie de la aplicación.
+- **Nube:** adaptador Supabase con sesión privada, RLS, cola offline e idempotencia.
+  Si Auth o la red no están disponibles, la práctica continúa en el navegador.
 
 Los tiempos son **metas pedagógicas**, pendientes de calibración con uso real.
 El simulacro es configurable y no afirma reproducir una convocatoria o escala
 oficial CEPRE. La mejora real se evalúa comparando precisión y tiempo a igual tema
 y nivel durante varias sesiones.
 
-El perfil es local, sin contraseña ni autenticación remota. No hay sincronización
-entre dispositivos. Se conserva la clave antigua `tm_pop2025_v1` y se migra su
-progreso al nuevo almacenamiento `trainermath_brenda_v3`. No se atribuyen tiempos
-inventados a intentos antiguos.
+Se conserva la clave antigua `tm_pop2025_v1` y se migra su progreso al almacenamiento
+`trainermath_brenda_v3`. El frontend contiene solo la clave publicable de Supabase;
+las claves de IA y Google permanecen en Edge Function secrets. Mientras el proveedor
+anónimo no esté habilitado, el indicador muestra `Modo local` y no afirma una
+sincronización inexistente. No se atribuyen tiempos inventados a intentos antiguos.
+
+La pestaña `TrainerMath_v4` del Sheet operativo registra releases y está preparada
+para recibir un resumen por sesión mediante `tm_sheet_outbox`. No envía enunciados,
+alternativas ni la respuesta elegida. La configuración y prueba de cierre están en
+[Aecodito, Supabase y Sheets](docs/aecodito-supabase.md).
 
 ## Temario y auditoría
 
@@ -81,6 +93,8 @@ python scripts/validate_syllabus_additions.py
 python scripts/audit-math-independent.py
 python scripts/audit-syllabus-independent.py
 node scripts/test-engine.cjs
+node scripts/test-adaptive.cjs
+node scripts/test-backend.cjs
 node scripts/test-exam-coverage.cjs
 node scripts/test-curriculum.cjs
 node scripts/test-anzan.cjs
@@ -94,6 +108,9 @@ duplicados de parámetros matemáticos, además de enunciados. La prueba de nave
 servidor local y guarda capturas en `output/playwright/`.
 `scripts/smoke-rose-anzan.cjs` verifica el Anzan, el examen con cinco áreas, la
 identidad, el teclado, 320/375 px y la ejecución offline del HTML completo.
+`scripts/smoke-aecodito.cjs` verifica el panel, su cierre/reapertura, el bloqueo
+durante examen y el fallback del tutor. `scripts/qa-cloud.cjs` es la prueba conectada
+y requiere Auth anónimo habilitado en el proyecto.
 
 ## Material local de academia
 
