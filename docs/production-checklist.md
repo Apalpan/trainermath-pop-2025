@@ -22,7 +22,13 @@ entender los errores y entrenar un examen configurable con tiempo total.
 | Exportación, importación y enlaces anteriores | Pass | `scripts/smoke-browser-extra.cjs`: #p/6, exportación, importación válida/inválida sin pérdida de progreso |
 | Teclado, foco, diálogos, contraste | Pass | Teclas 1-4, modal Escape, bloqueo fuera de sesión; contraste acción 4.95:1, texto secundario 5.87:1, texto principal 16.07:1; controles táctiles verificados |
 | Rendimiento de laboratorio local | Pass | Chromium 1440 px: LCP 156 ms, CLS 0, DOMContentLoaded 119 ms, 0 solicitudes adicionales; HTML 559459 bytes |
-| Publicación real GitHub Pages | Pendiente | Se completa con commit, build y HTTP |
+| Publicación real GitHub Pages | Pass | Feature commit `0f66aa2`, workflow `34311039011` exitoso, Pages `built`, HTTP 200 y HTML idéntico al blob Git publicado |
+
+URL verificada: https://apalpan.github.io/trainermath-pop-2025/
+Prueba en producción: 510 preguntas cargadas, filtro Trigonometría, inicio de
+práctica y respuesta con feedback. Hash SHA-256 del HTML publicado:
+`492322eb9b45f6ccf71b91be7a862e1ef850c14cfd6127abf2a7875c0ed4b16d`.
+La copia local Windows solo difiere en finales de línea CRLF/LF.
 
 Capturas locales: `output/playwright/`. En móvil, el mapa del examen comienza
 cerrado y se abre por un botón situado sobre la navegación inferior. No hay
